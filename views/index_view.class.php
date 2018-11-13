@@ -46,8 +46,10 @@ class IndexView {
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
                 <style>
                     #itemIcon{
-                        width: 100px;
-                        height: 100px;
+                        width: 130px;
+                        height: 130px;
+                        margin-top: -15px;
+                        margin-left: -15px;
                     }
                     .row{
                         margin-left: 0px;
@@ -61,11 +63,13 @@ class IndexView {
                     }
                     .card-body{
                         padding: 0px 0px 0px 0px;
-                        overflow: hidden;
                     }
                     .card{
                         margin: 5px 5px 5px 5px;
                         width: 100px; height: 100px;
+                        overflow: hidden;
+                        border-width: 2px;
+                        border-color: rgba(75, 75, 75, 1);
                     }
                     
                 </style>
