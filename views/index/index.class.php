@@ -24,6 +24,10 @@ class HomeIndex extends IndexView {
     
     echo $user->PrintInventory() . "<br>";
 ?>
+        <form action="index.php?action=logout" method="post">
+            <input type="submit" name="logout" value="logout" />
+        </form>
+
 
         <?php
         //display page footer

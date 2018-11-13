@@ -35,6 +35,17 @@ class ApplicationController {
         $view = new HomeIndex();
         $view->display($user);
     }
+    
+    public function logout() {
+        $this->userModel->logout();
+        
+        if(isset($_COOKIE['user'])){
+            unset($_COOKIE['user']);
+            setcookie('user', null, -1, "/");
+        }
+        
+        $this->login();
+    }
 
     //show details of a book
     public function registration() {

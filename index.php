@@ -25,13 +25,21 @@ and open the template in the editor.
         
         $applicationController = new ApplicationController();
         
-        $userModel = UserModel::GetUserModel();
-        $userModel->VerifyUser("wengera", "Alex973062");
-        
-        if(isset($_COOKIE["user"])) {
-            $applicationController->index();
+        if(isset($_GET['action']) && ($_GET['action'] != '')){
+            switch ($_GET['action']){
+                case "logout":
+                    $applicationController->logout();
+                    break;
+                default:
+                    $userModel = UserModel::GetUserModel();
+                    $userModel->VerifyUser("wengera", "Alex973062");
+                    $applicationController->index();
+                    break;
+            }
         }else{
-            echo "Failed to retrieve user";
+            $userModel = UserModel::GetUserModel();
+            $userModel->VerifyUser("wengera", "Alex973062");
+            $applicationController->index();
         }
         
         
