@@ -76,6 +76,12 @@ class IndexView {
                         background-color: rgb(50, 50, 50) !important;
                     }
                     
+                    .container{
+                        margin-left: 20px;
+                        margin-right: 20px;
+                        width: 45vw;
+                    }
+                    
                     
                 </style>
             </head>

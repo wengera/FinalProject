@@ -58,12 +58,10 @@ class UserModel {
     public static function GetUser(){
         return self::$_user;
     }
-
-    public function VerifyUser($username, $password) {   
-        $password = password_hash($password, PASSWORD_DEFAULT);
-        
+    
+    public function GetVendor(){
         $sql = "SELECT id, username, firstName, lastName, phone, inventory FROM " . $this->tblUser .
-                " WHERE username = '" . $username . "'";
+                " WHERE username = 'vendor'";
         
         //execute the query
         $query = $this->dbConnection->query($sql);
@@ -85,12 +83,47 @@ class UserModel {
             $user = new User((array)$obj);
         }
         
-        self::$_user = $user;
+        return $user;
         
-        if ($user){
-            $cookie_name = "user";
-            $cookie_value = $user->GetUsername();
-            setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+    }
+
+    public function VerifyUser($username, $password) {
+        
+        $sql = "SELECT id, username, password, firstName, lastName, phone, inventory FROM " . $this->tblUser .
+                " WHERE username = '" . $username . "'";
+        
+        //execute the query
+        $query = $this->dbConnection->query($sql);
+
+        // if the query failed, return false. 
+        if (!$query)
+            return false;
+        
+        //if the query succeeded, but no item was found.
+        if ($query->num_rows == 0)
+            return 0;
+        
+        $user = $query->fetch_assoc();
+        echo $password . "<br>";
+        if (!password_verify($password , $user['password']))
+            echo "False";
+        echo password_verify($password , $user['password']) . "<br>";
+        if (!password_verify($password , $user['password'])){
+
+            //loop through all rows in the returned recordsets
+            //while ($obj = $query->fetch_object()) {
+            $user = new User((array)$user);
+            //}
+
+            self::$_user = $user;
+
+            if ($user){
+                $cookie_name = "user";
+                $cookie_value = $user->GetUsername();
+                setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+            }
+        }else{
+            echo "failed to verify user";
         }
     }
     

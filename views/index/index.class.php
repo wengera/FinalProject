@@ -16,14 +16,15 @@ class HomeIndex extends IndexView {
             return "";
     }
     
-    public function display($user) {
+    public function display($user, $vendor) {
         //display page header
         parent::displayHeader("Home");
         ?>    
         <div id="main-header" style="color: white">This is the main inventory page</div>
         <p style="color: white"> Your inventory will be printed below </p>
         <br>
-        <div class="container" id="playerInventoryContainer">
+        <div class="container-fluid"><div class="row"><div class="col-lg-6">
+        <div class="container-fluid" id="playerInventoryContainer">
             <div class="row">
                 <div class="col-lg-*">
                     <div class="card">
@@ -134,6 +135,122 @@ class HomeIndex extends IndexView {
                     </div>
                 </div>
             </div>
+        </div>
+                </div>
+                <div class="col-lg-6">
+        <div class="container" id="playerInventoryContainer">
+            <div class="row">
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 0) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 1) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 2) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 3) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 4) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 5) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 6) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 7) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 8) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 9) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 10) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 11) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 12) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 13) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 14) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 15) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 16) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 17) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 18) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-*">
+                    <div class="card">
+                        <div class="card-body"><img src="<?= self::getIcon($vendor, 19) ?>" id="itemIcon" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                </div>
         </div>
 <?php
     

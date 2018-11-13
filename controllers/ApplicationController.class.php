@@ -32,8 +32,10 @@ class ApplicationController {
         */
         $user = $this->userModel->GetUser();
         $user->LoadInventory();
+        $vendor = $this->userModel->GetVendor();
+        $vendor->LoadInventory();
         $view = new HomeIndex();
-        $view->display($user);
+        $view->display($user, $vendor);
     }
     
     public function logout() {
