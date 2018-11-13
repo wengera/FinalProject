@@ -23,7 +23,7 @@ and open the template in the editor.
         require_once ("views/index/index.class.php");
         
         $applicationController = new ApplicationController();
-        
+        //UserModel::GetUserModel()->AddUser("wengera", "test", "Alex", "Wenger", "3174324218", '{"inventory": [{"1": 5}, {"2": 6}, {"0": 1}, {"4": 3}]}');
         if(isset($_GET['action']) && ($_GET['action'] != '')){
             switch ($_GET['action']){
                 case "logout":
@@ -31,13 +31,13 @@ and open the template in the editor.
                     break;
                 default:
                     $userModel = UserModel::GetUserModel();
-                    $userModel->VerifyUser("wengera", "Alex973062");
+                    $userModel->VerifyUser("wengera", "test");
                     $applicationController->index();
                     break;
             }
         }else{
             $userModel = UserModel::GetUserModel();
-            $userModel->VerifyUser("wengera", "Alex973062");
+            $userModel->VerifyUser("wengera", "test");
             $applicationController->index();
         }
         

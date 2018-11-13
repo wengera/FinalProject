@@ -137,7 +137,7 @@ class HomeIndex extends IndexView {
         </div>
 <?php
     
-    //$userModel->AddUser("wengera", "Alex973062", "Alex", "Wenger", "3174324218", '{"inventory": [{"1": 5}, {"2": 6}]}');
+    
     if (!$user){
         echo "Failed to retrieve user";
     }

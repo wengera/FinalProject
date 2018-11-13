@@ -14,7 +14,7 @@ class ApplicationController {
     
     //default constructor
     public function __construct() {
-        //create an instance of the BookModel class
+        //create an instance of the UserModel class
         $this->userModel = UserModel::GetUserModel();
     }
 

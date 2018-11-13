@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2018 at 07:54 PM
+-- Generation Time: Nov 13, 2018 at 10:15 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.8
 
@@ -99,7 +99,7 @@ INSERT INTO `user` (`id`, `username`, `password`, `firstName`, `lastName`, `phon
 (3, 'xXx420NoScopexXx', 'dudeson101', 'Chad', 'Chadwick', 1234567, '{[]}'),
 (4, 'flexluther', 'isthatbad?', 'Todd', 'Marshal', 1234567, '{[]}'),
 (5, 'OsamaBinLaggin', 'ohitslit', 'Michael', 'Michaelson', 1234567, '{[]}'),
-(6, 'wengera', '$2y$10$CTqt/lZLSyH3kvuWv2SKtOO', 'Alex', 'Wenger', 2147483647, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}, {\"4\": 3}]}');
+(7, 'wengera', '$2y$10$3BQmmrp7ByWob0zskA2DTup', 'Alex', 'Wenger', 2147483647, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}, {\"4\": 3}]}');
 
 --
 -- Indexes for dumped tables
