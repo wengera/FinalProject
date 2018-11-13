@@ -18,20 +18,24 @@ and open the template in the editor.
         require_once ("models/User.class.php");
         require_once ("models/InventoryModel.class.php");
         require_once ("models/UserModel.class.php");
+        require_once ("controllers/ApplicationController.class.php");
         require_once ("application/database.class.php");
-        $userModel = UserModel::GetUserModel();
-        //$userModel->AddUser("wengera", "Alex973062", "Alex", "Wenger", "3174324218", '{"inventory": [{"1": 5}, {"2": 6}]}');
+        require_once ("views/index_view.class.php");
+        require_once ("views/index/index.class.php");
         
-        $user = $userModel->GetUser("wengera", "Alex973062");
-        if ($user){
-            echo "Retrieved User <br>";
+        $applicationController = new ApplicationController();
+        
+        $userModel = UserModel::GetUserModel();
+        $userModel->VerifyUser("wengera", "Alex973062");
+        
+        if(isset($_COOKIE["user"])) {
+            $applicationController->index();
         }else{
             echo "Failed to retrieve user";
         }
-        echo $user->GetUsername() . "<br>";
-        echo $user->PrintInventory() . "<br>";
-        $user->GetInventory();
-        echo $user->PrintInventory();
+        
+        
+        
         //echo var_dump(array_keys((array)$inventoryArray->inventory)) . "<br>";
         //echo implode(" ", $inventoryArray) . "<br>";
         //echo var_dump($inventoryArray);

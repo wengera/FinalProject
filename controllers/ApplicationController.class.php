@@ -3,25 +3,25 @@
 /*
  * Author: Alex Wenger
  * Date: 11/13/2018
- * File: inventory_controller.class.php
- * Description: the inventory controller
+ * File: ApplicationController.class.php
+ * Description: the application controller
  *
  */
 
-class InventoryController {
+class ApplicationController {
 
-    private $inventoryModel;
-
+    private $userModel;
+    
     //default constructor
     public function __construct() {
         //create an instance of the BookModel class
-        $this->book_model = InventoryModel::getInventoryModel();
+        $this->userModel = UserModel::GetUserModel();
     }
 
     //index action that displays all books
     public function index() {
         //retrieve all books and store them in an array
-        $inventory = $this->inventory_model->list_book();
+        /*$inventory = $this->userModel->Get;
 
         if (!inventory) {
             //display an error
@@ -29,43 +29,27 @@ class InventoryController {
             $this->error($message);
             return;
         }
-
-        // display all books
-        $view = new InventoryIndex();
-        $view->display($books);
+        */
+        $user = $this->userModel->GetUser();
+        $user->LoadInventory();
+        $view = new HomeIndex();
+        $view->display($user);
     }
 
     //show details of a book
-    public function detail($id) {
-        //retrieve the specific book
-        $book = $this->book_model->view_book($id);
-
-        if (!$book) {
-            //display an error
-            $message = "There was a problem displaying the book id='" . $id . "'.";
-            $this->error($message);
-            return;
-        }
-
-        //display book details
-        $view = new BookDetail();
-        $view->display($book);
+    public function registration() {
+        $view = new Register();
+        $view->display();
     }
 
-    //display a book in a form for editing
-    public function edit($id) {
-        //retrieve the specific book
-        $book = $this->book_model->view_book($id);
-
-        if (!$book) {
-            //display an error
-            $message = "There was a problem displaying the book id='" . $id . "'.";
-            $this->error($message);
-            return;
+    //display a login form
+    public function login() {
+        if(isset($_COOKIE["user"])) {
+            $this->index();
+        }else{
+            $view = new Login();
+            $view->display();
         }
-
-        $view = new BookEdit();
-        $view->display($book);
     }
 
     //handle an error
@@ -75,16 +59,6 @@ class InventoryController {
 
         //display the error page
         $error->display($message);
-    }
-
-    //handle calling inaccessible methods
-    public function __call($name, $arguments) {
-        //$message = "Route does not exist.";
-        // Note: value of $name is case sensitive.
-        $message = "Calling method '$name' caused errors. Route does not exist.";
-
-        $this->error($message);
-        return;
     }
 
 }

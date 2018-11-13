@@ -14,6 +14,7 @@ class UserModel {
     private $db;
     private $dbConnection;
     static private $_instance = NULL;
+    static private $_user = NULL;
     private $tblUser;
 
     //To use singleton pattern, this constructor is made private. To get an instance of the class, the getBookModel method must be called.
@@ -53,8 +54,12 @@ class UserModel {
      * the GetInventory method retrieves all items from the database and
      * returns an array of Item objects if successful or false if failed.
      */
+    
+    public static function GetUser(){
+        return self::$_user;
+    }
 
-    public function GetUser($username, $password) {   
+    public function VerifyUser($username, $password) {   
         $password = password_hash($password, PASSWORD_DEFAULT);
         
         $sql = "SELECT id, username, firstName, lastName, phone, inventory FROM " . $this->tblUser .
@@ -80,7 +85,19 @@ class UserModel {
             $user = new User((array)$obj);
         }
         
-        return $user;
+        self::$_user = $user;
+        
+        if ($user){
+            $cookie_name = "user";
+            $cookie_value = $user->GetUsername();
+            setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+        }
+    }
+    
+    //Returns the user's inventory
+    public function GetInventory(){
+        $this->_user->LoadInventory();
+        $this->_user->GetInventory();
     }
     
     public function AddUser($username, $password, $firstName, $lastName, $phone, $inventory) {

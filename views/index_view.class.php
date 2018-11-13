@@ -16,8 +16,6 @@ class IndexView {
             <head>
                 <title> <?php echo $page_title ?> </title>
                 <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-                <link rel='shortcut icon' href='<?= BASE_URL ?>/www/img/favicon.ico' type='image/x-icon' />
-                <link type='text/css' rel='stylesheet' href='<?= BASE_URL ?>/www/css/app_style.css' />
                 <script>
                     //create the JavaScript variable for the base url
                     var base_url = "<?= BASE_URL ?>";
@@ -27,18 +25,7 @@ class IndexView {
                 <div id="top"></div>
                 <div id='wrapper'>
                     <div id="banner">
-                        <a href="<?= BASE_URL ?>/index.php" style="text-decoration: none" title="Kung Fu Panda Media Library">
-                            <div id="left">
-                                <img src='<?= BASE_URL ?>/www/img/logo.png' style="width: 180px; border: none" />
-                                <span style='color: #000; font-size: 36pt; font-weight: bold; vertical-align: top'>
-                                    Media Library!
-                                </span>
-                                <div style='color: #000; font-size: 14pt; font-weight: bold'>An interactive application designed with MVC pattern</div>
-                            </div>
-                        </a>
-                        <div id="right">
-                            <img src="<?= BASE_URL ?>/www/img/kungfupanda.png" style="width: 400px; border: none" />
-                        </div>
+                        <?= $page_title ?>
                     </div>
                     <?php
                 }//end of displayHeader function
@@ -49,8 +36,7 @@ class IndexView {
                     <br><br><br>
                     <div id="push"></div>
                 </div>
-                <div id="footer"><br>&copy 2016 Kung Fu Panda Media Library. All Rights Reserved.</div>
-                <script type="text/javascript" src="<?= BASE_URL ?>/www/js/ajax_autosuggestion.js"></script>
+                <div id="footer"><br> All Rights Reserved.</div>
             </body>
         </html>
         <?php

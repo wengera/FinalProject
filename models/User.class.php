@@ -60,8 +60,8 @@ class User{
         }
     }
     
-    public function LoadInventory($inventoryData){
-        $inventoryArray = json_decode($inventoryData);
+    public function LoadInventory(){
+        $inventoryArray = json_decode($this->inventory);
         $items = (array)$inventoryArray->inventory;
         $item = (array)$inventoryArray->inventory[0];
         $itemKeys = array();
@@ -74,7 +74,7 @@ class User{
         $inventoryModel = InventoryModel::GetInventoryModel();
         $this->inventory = $inventoryModel->GetInventory($itemKeys);
         
-        if (!$inventoryData){
+        if (!$this->inventory){
             echo "Failed to load inventory";
             return null;
         }else{
