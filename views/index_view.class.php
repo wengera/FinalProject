@@ -63,14 +63,19 @@ class IndexView {
                     }
                     .card-body{
                         padding: 0px 0px 0px 0px;
+                        background-color: rgb(70, 70, 70);
                     }
                     .card{
                         margin: 5px 5px 5px 5px;
                         width: 100px; height: 100px;
                         overflow: hidden;
                         border-width: 2px;
-                        border-color: rgba(75, 75, 75, 1);
+                        border-color: rgba(200, 200, 200, 1);
                     }
+                    body{
+                        background-color: rgb(50, 50, 50) !important;
+                    }
+                    
                     
                 </style>
             </head>
@@ -78,7 +83,7 @@ class IndexView {
                 <?php self::displayNavBar() ?>
                 <div id="top"></div>
                 <div id='wrapper'>
-                    <div id="banner">
+                    <div id="banner" style="color: white">
                         <?= $page_title ?>
                     </div>
                     <?php
@@ -90,7 +95,7 @@ class IndexView {
                     <br><br><br>
                     <div id="push"></div>
                 </div>
-                <div id="footer"><br> All Rights Reserved.</div>
+                <div id="footer" style="color: white"><br> All Rights Reserved.</div>
             </body>
         </html>
         <?php
