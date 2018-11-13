@@ -8,6 +8,26 @@
 
 class IndexView {
 
+    static public function displayNavBar(){
+        ?>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <!-- Brand/logo -->
+            <a class="navbar-brand" href="#">Inventory</a>
+
+            <!-- Links -->
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Login</a>
+                </li>
+            </ul>
+          </nav>
+    <?php
+    }
     //this method displays the page header
     static public function displayHeader($page_title) {
         ?>
@@ -20,8 +40,38 @@ class IndexView {
                     //create the JavaScript variable for the base url
                     var base_url = "<?= BASE_URL ?>";
                 </script>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+                <style>
+                    #itemIcon{
+                        width: 100px;
+                        height: 100px;
+                    }
+                    .row{
+                        margin-left: 0px;
+                        margin-right: 0px;
+                    }
+                    
+                    #playerInventoryContainer{
+                        margin-left: 20px;
+                        margin-right: 0px;
+                        width: 475px;
+                    }
+                    .card-body{
+                        padding: 0px 0px 0px 0px;
+                        overflow: hidden;
+                    }
+                    .card{
+                        margin: 5px 5px 5px 5px;
+                        width: 100px; height: 100px;
+                    }
+                    
+                </style>
             </head>
             <body>
+                <?php self::displayNavBar() ?>
                 <div id="top"></div>
                 <div id='wrapper'>
                     <div id="banner">

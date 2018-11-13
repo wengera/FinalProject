@@ -9,7 +9,7 @@
 class User{
     
     //private properties of a User object
-    private $id, $username, $firstName, $lastName, $phone, $inventory;
+    private $id, $username, $firstName, $lastName, $phone, $inventory, $icon;
     public $inventoryLoaded = false;
     
     //the constructor that initializes all properties
@@ -47,6 +47,13 @@ class User{
             return $this->LoadInventory($this->inventory);
         else
             return $this->inventory;
+    }
+    
+    public function GetItem($index){
+        if ($index < sizeof($this->inventory))
+            return $this->inventory[$index];
+        else
+            return "";
     }
     
     public function PrintInventory(){

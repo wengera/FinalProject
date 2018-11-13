@@ -86,5 +86,34 @@ class InventoryModel {
         
         return $items;
     }
+    
+    public function GetIcon($iconId) {
+        
+        $sql = "SELECT image FROM " . $this->tblItemIcon .
+                " WHERE id = " . $iconId;
+        
+        //execute the query
+        $query = $this->dbConnection->query($sql);
+
+        // if the query failed, return false. 
+        if (!$query)
+            return false;
+
+        //if the query succeeded, but no item was found.
+        if ($query->num_rows == 0)
+            return 0;
+
+        //handle the result
+        //create an array to store all returned books
+        $image = null;
+
+        //loop through all rows in the returned recordsets
+        while ($obj = $query->fetch_object()) {
+            //$items = new Item(stripslashes($obj->id), stripslashes($obj->price), stripslashes($obj->name), stripslashes($obj->description), stripslashes($obj->icon_id));
+            $image = imagepng(imagecreatefromstring($obj->image), ICON_IMAGE_URL . 'icon' . $iconId . '.png');
+        }
+        
+        return ICON_IMAGE_URL . 'icon' . $iconId . '.png';
+    }
 
 }

@@ -9,7 +9,7 @@
 class Item implements Serializable{
     
     //private properties of a Book object
-    private $id, $price, $name, $description, $icon_id;
+    private $id, $price, $name, $description, $icon_id, $icon;
     
     //the constructor that initializes all properties
     public function __construct($data){
@@ -46,6 +46,14 @@ class Item implements Serializable{
     
     public function GetIconId(){
        return $this->icon_id;
+    }
+    
+    public function GetIcon(){
+        if (!$this->icon){
+            $this->icon = InventoryModel::GetInventoryModel()->GetIcon($this->icon_id);
+        }
+        
+        return $this->icon;
     }
     
     public function serialize() {

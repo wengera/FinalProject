@@ -10,7 +10,6 @@ and open the template in the editor.
         <title></title>
     </head>
     <body>
-        <p> hi </p>
         <?php
         //load application settings
         require_once ("application/config.php");

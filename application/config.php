@@ -16,3 +16,5 @@ date_default_timezone_set('America/New_York');
 
 //base url of the application
 define("BASE_URL", "http://localhost/I211/FinalProject");
+
+define("ICON_IMAGE_URL", "www/img/icons/");
