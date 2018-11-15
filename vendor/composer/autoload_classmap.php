@@ -7,7 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'ApplicationController' => $baseDir . '/controllers/ApplicationController.class.php',
+    'ComposerAutoloaderInit3b15c8755527bcb36b2cb0456783efce' => $vendorDir . '/composer/autoload_real.php',
+    'Composer\\Autoload\\ClassLoader' => $vendorDir . '/composer/ClassLoader.php',
+    'Composer\\Autoload\\ComposerStaticInit3b15c8755527bcb36b2cb0456783efce' => $vendorDir . '/composer/autoload_static.php',
     'Database' => $baseDir . '/application/database.class.php',
+    'DetailsView' => $baseDir . '/views/details/details.class.php',
     'Dispatcher' => $baseDir . '/application/dispatcher.class.php',
     'HomeIndex' => $baseDir . '/views/index/index.class.php',
     'IndexView' => $baseDir . '/views/index_view.class.php',

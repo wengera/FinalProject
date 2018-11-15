@@ -11,16 +11,19 @@
 class ApplicationController {
 
     private $userModel;
-    
+    private $inventoryModel;
     //default constructor
     public function __construct() {
         //create an instance of the UserModel class
         $this->userModel = UserModel::GetUserModel();
+        $this->inventoryModel = InventoryModel::GetInventoryModel();
     }
 
     //index action that displays all books
-    public function index() {
-        
+    public function index() {  
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         if(isset($_SESSION['user'])){
             $user = $this->userModel->GetUser($_SESSION['user']);
             $user->LoadInventory();
@@ -34,7 +37,10 @@ class ApplicationController {
         
     }
     
-    public function logout() {        
+    public function logout() {  
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         if(isset($_SESSION['user'])){
             session_destroy();
         }
@@ -57,10 +63,26 @@ class ApplicationController {
         $view = new Register();
         $view->display();
     }
+    
+    public function details() {  
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(isset($_POST["itemId"])) {
+            $view = new DetailsView();
+            $view->display($this->inventoryModel->GetItem($_POST['itemId']));
+        }else{
+            $view = new LoginView();
+            $view->display();
+        }
+    }
 
     //display a login form
-    public function login() {
-        if(isset($_COOKIE["user"])) {
+    public function login() {  
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(isset($_SESSION["user"])) {
             $this->index();
         }else{
             $view = new LoginView();

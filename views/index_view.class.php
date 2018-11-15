@@ -12,21 +12,47 @@ class IndexView {
         ?>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <!-- Brand/logo -->
-            <a class="navbar-brand" href="#">Inventory</a>
+            <a class="navbar-brand" href="index">Inventory</a>
 
             <!-- Links -->
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="index">Home</a>
               </li>
             </ul>
             <ul class="navbar-nav ml-auto">
+                <?php
+                    if (session_status() == PHP_SESSION_NONE || !isset($_SESSION['user'])) {
+                ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
+                    <a class="nav-link" href="login">Login</a>
                 </li>
+                <?php
+                    }else{
+                ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout">Logout</a>
+                </li>
+                <?php
+                    }
+                ?>
             </ul>
           </nav>
     <?php
+    }
+    static public function displayFloatingDetails(){
+        ?>
+        <div id="floatingDetails">
+            <div class="card" id="cardDetails">
+                <div class="card-body" style="padding-top: 20px">
+                  <h4 class="card-title" id="name" style="color:white;"> item</h4>
+                  <p class="card-text" id="price" style="color:white;"><b>Price:</b> price</p>
+                  <p class="card-text" id="description" style="color:white;"><b>Description:</b> description </p>
+                </div>
+            </div>
+        </div>
+        <?php
+            
     }
     //this method displays the page header
     static public function displayHeader($page_title) {
@@ -45,16 +71,36 @@ class IndexView {
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
                 <style>
+                    #floatingDetails{
+                        z-index: 1;
+                        position: absolute;
+                    }
+                    
                     #itemIcon{
-                        width: 130px;
-                        height: 130px;
-                        margin-top: -15px;
-                        margin-left: -15px;
+                        width: 100px;
+                        height: 100px;
                     }
                     .row{
                         margin-left: 0px;
                         margin-right: 0px;
                     }
+                    
+                    #cardDetails{
+                        width:300px;
+                        margin-top: 40px;
+                        border-color: white;
+                        background-color: rgb(70, 70, 70);
+                    }
+                    
+                    #itemIconDetails{
+                        width: 300px;
+                        height: 300px;
+                    }
+                    
+                    .card{
+                        overflow: hidden;
+                    }
+                    
                     
                     #playerInventoryContainer{
                         margin-left: 20px;
@@ -73,7 +119,6 @@ class IndexView {
                         animation: shrink .1s ;
                         margin: 5px 5px 5px 5px;
                         width: 100px; height: 100px;
-                        overflow: hidden;
                         border-width: 2px;
                         border-color: rgba(200, 200, 200, 1);
                     }
@@ -133,6 +178,15 @@ class IndexView {
                 </div>
                 <div id="footer" style="color: white"><br></div>
             </body>
+            <script>
+                document.addEventListener("mousemove", function(event){
+                    document.getElementById("floatingDetails").style.left = event.pageX + 10 + "px";
+                    document.getElementById("floatingDetails").style.top = (event.pageY - 10) + "px";
+                });
+                function toggleFloatingDetails(reveal){
+                    document.getElementById("floatingDetails").hidden = !reveal;
+                }
+            </script>
         </html>
         <?php
     } //end of displayFooter function

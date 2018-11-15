@@ -17,13 +17,13 @@ class InventoryModel {
     private $tblItem;
     private $tblItemIcon;
 
-    //To use singleton pattern, this constructor is made private. To get an instance of the class, the getBookModel method must be called.
+    //private constructor to handle Inventory Model's singleton instances
     private function __construct() {
         $this->db = Database::getDatabase();
         $this->dbConnection = $this->db->getConnection();
         $this->tblItem = $this->db->getItemTable();
         $this->tblItemIcon = $this->db->getIconTable();
-
+        
         //Escapes special characters in a string for use in an SQL statement. This stops SQL inject in POST vars. 
         foreach ($_POST as $key => $value) {
             $_POST[$key] = $this->dbConnection->real_escape_string($value);
@@ -33,17 +33,9 @@ class InventoryModel {
         foreach ($_GET as $key => $value) {
             $_GET[$key] = $this->dbConnection->real_escape_string($value);
         }
-
-        //initialize book categories
-        /*
-        if (!isset($_SESSION['book_categories'])) {
-            $categories = $this->get_book_categories();
-            $_SESSION['book_categories'] = $categories;
-        }
-        */
     }
 
-    //static method to ensure there is just one BookModel instance
+    //Returns an instance of the inventory singleton model
     public static function GetInventoryModel() {
         if (self::$_instance == NULL) {
             self::$_instance = new InventoryModel();
@@ -52,10 +44,9 @@ class InventoryModel {
     }
 
     /*
-     * the GetInventory method retrieves all items from the database and
+     * the GetInventory method retrieves all of a user's items from the database and
      * returns an array of Item objects if successful or false if failed.
      */
-
     public function GetInventory($keys) {
         $in = '(' . implode(',', $keys) .')';
         
@@ -72,14 +63,11 @@ class InventoryModel {
         //if the query succeeded, but no item was found.
         if ($query->num_rows == 0)
             return 0;
-
-        //handle the result
-        //create an array to store all returned books
+        
         $items = array();
 
-        //loop through all rows in the returned recordsets
+        //loop through all rows in the returned inventory set
         while ($obj = $query->fetch_object()) {
-            //$items = new Item(stripslashes($obj->id), stripslashes($obj->price), stripslashes($obj->name), stripslashes($obj->description), stripslashes($obj->icon_id));
             $item = new Item((array)$obj);
             $items[] = $item;
         }
@@ -87,10 +75,11 @@ class InventoryModel {
         return $items;
     }
     
-    public function GetIcon($iconId) {
+    //Returns an item from the database based on a provided item id
+    public function GetItem($key) {
         
-        $sql = "SELECT image FROM " . $this->tblItemIcon .
-                " WHERE id = " . $iconId;
+        $sql = "SELECT * FROM " . $this->tblItem .
+                " WHERE id = " . $key;
         
         //execute the query
         $query = $this->dbConnection->query($sql);
@@ -103,16 +92,16 @@ class InventoryModel {
         if ($query->num_rows == 0)
             return 0;
 
-        //handle the result
-        //create an array to store all returned books
-        $image = null;
+        $items = array();
 
-        //loop through all rows in the returned recordsets
-        while ($obj = $query->fetch_object()) {
-            //$items = new Item(stripslashes($obj->id), stripslashes($obj->price), stripslashes($obj->name), stripslashes($obj->description), stripslashes($obj->icon_id));
-            $image = imagepng(imagecreatefromstring($obj->image), ICON_IMAGE_URL . 'icon' . $iconId . '.png');
-        }
+        //Retrieve the object
+        $obj = $query->fetch_object();
+        $item = new Item((array)$obj);
         
+        return $item;
+    }
+    
+    public function GetIcon($iconId) {
         return "../" . ICON_IMAGE_URL . 'icon' . $iconId . '.png';
     }
 
