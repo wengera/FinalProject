@@ -113,7 +113,7 @@ class InventoryModel {
             $image = imagepng(imagecreatefromstring($obj->image), ICON_IMAGE_URL . 'icon' . $iconId . '.png');
         }
         
-        return ICON_IMAGE_URL . 'icon' . $iconId . '.png';
+        return "../" . ICON_IMAGE_URL . 'icon' . $iconId . '.png';
     }
 
 }

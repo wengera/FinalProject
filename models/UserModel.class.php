@@ -14,7 +14,6 @@ class UserModel {
     private $db;
     private $dbConnection;
     static private $_instance = NULL;
-    static private $_user = NULL;
     private $tblUser;
 
     //To use singleton pattern, this constructor is made private. To get an instance of the class, the getBookModel method must be called.
@@ -49,15 +48,6 @@ class UserModel {
         }
         return self::$_instance;
     }
-
-    /*
-     * the GetInventory method retrieves all items from the database and
-     * returns an array of Item objects if successful or false if failed.
-     */
-    
-    public static function GetUser(){
-        return self::$_user;
-    }
     
     public function GetVendor(){
         $sql = "SELECT id, username, firstName, lastName, phone, inventory FROM " . $this->tblUser .
@@ -86,6 +76,27 @@ class UserModel {
         return $user;
         
     }
+    
+    public function GetUser($username) {
+        
+        $sql = "SELECT id, username, password, firstName, lastName, phone, inventory FROM " . $this->tblUser .
+                " WHERE username = '" . $username . "'";
+        
+        //execute the query
+        $query = $this->dbConnection->query($sql);
+
+        // if the query failed, return false. 
+        if (!$query)
+            return false;
+        
+        //if the query succeeded, but no item was found.
+        if ($query->num_rows == 0)
+            return 0;
+        
+        $user = $query->fetch_assoc();
+        
+        return new User((array)$user);
+    }
 
     public function VerifyUser($username, $password) {
         
@@ -104,26 +115,25 @@ class UserModel {
             return 0;
         
         $user = $query->fetch_assoc();
-        echo $password . "<br>";
-        if (!password_verify($password , $user['password']))
-            echo "False";
-        echo password_verify($password , $user['password']) . "<br>";
+        
         if (!password_verify($password , $user['password'])){
-
-            //loop through all rows in the returned recordsets
-            //while ($obj = $query->fetch_object()) {
+            
             $user = new User((array)$user);
-            //}
-
-            self::$_user = $user;
-
+            
             if ($user){
-                $cookie_name = "user";
-                $cookie_value = $user->GetUsername();
-                setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+                //$cookie_name = "user";
+                //$cookie_value = $user->GetUsername();
+                session_start();
+                $_SESSION['user'] = $user->GetUsername();
+                $_SESSION['time'] = time() + (86400 * 30);
+
+                //setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
             }
+            
+            return true;
         }else{
             echo "failed to verify user";
+            return false;
         }
     }
     

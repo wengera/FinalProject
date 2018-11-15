@@ -13,43 +13,34 @@ and open the template in the editor.
         <?php
         //load application settings
         require_once ("application/config.php");
-        require_once ("models/Item.class.php");
-        require_once ("models/User.class.php");
-        require_once ("models/InventoryModel.class.php");
-        require_once ("models/UserModel.class.php");
-        require_once ("controllers/ApplicationController.class.php");
-        require_once ("application/database.class.php");
-        require_once ("views/index_view.class.php");
-        require_once ("views/index/index.class.php");
+
+        //load autoloader
+        require_once ("vendor/autoload.php");
         
-        $applicationController = new ApplicationController();
+        new Dispatcher();
+        
         //UserModel::GetUserModel()->AddUser("wengera", "test", "Alex", "Wenger", "3174324218", '{"inventory": [{"1": 5}, {"2": 6}, {"0": 1}, {"4": 3}]}');
         if(isset($_GET['action']) && ($_GET['action'] != '')){
+            $applicationController = new ApplicationController();
             switch ($_GET['action']){
                 case "logout":
                     $applicationController->logout();
                     break;
+                case "login":
+                    if(isset($_POST['username']) && isset($_POST['password'])){
+                        $applicationController->verifyUser($_POST['username'], $_POST['password']);
+                    }
+                    break;
                 default:
-                    $userModel = UserModel::GetUserModel();
-                    $userModel->VerifyUser("wengera", "test");
-                    $applicationController->index();
+                    if(isset($_GET['user']) && ($_GET['user'] != '')){
+                        $applicationController->index();
+                    }else{
+                        $applicationController->login();
+                    }
                     break;
             }
-        }else{
-            $userModel = UserModel::GetUserModel();
-            $userModel->VerifyUser("wengera", "test");
-            $applicationController->index();
         }
-        
-        
-        
-        //echo var_dump(array_keys((array)$inventoryArray->inventory)) . "<br>";
-        //echo implode(" ", $inventoryArray) . "<br>";
-        //echo var_dump($inventoryArray);
-        
-        //load autoloader
-        //require_once ("vendor/autoload.php");
-        // put your code here
+       
         ?>
     </body>
 </html>

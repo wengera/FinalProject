@@ -61,16 +61,46 @@ class IndexView {
                         margin-right: 0px;
                         width: 475px;
                     }
-                    .card-body{
+                    #formCard{
+                        padding: 10px 10px 10px 10px;
+                    }
+                    #itemCardBody{
                         padding: 0px 0px 0px 0px;
                         background-color: rgb(70, 70, 70);
                     }
-                    .card{
+                    #itemCard{
+                        -webkit-animation: shrink .1s  normal forwards ease-in-out; /* Safari 4.0 - 8.0 */
+                        animation: shrink .1s ;
                         margin: 5px 5px 5px 5px;
                         width: 100px; height: 100px;
                         overflow: hidden;
                         border-width: 2px;
                         border-color: rgba(200, 200, 200, 1);
+                    }
+                    
+                    @keyframes grow{
+                        0%{
+                            border-width: 2px;
+                        }
+                        100%{
+                            border-width: 4px;
+                        }
+                    }
+                    
+                    @keyframes shrink{
+                        0%{
+                            border-width: 4px;
+                        }
+                        100%{
+                            border-width: 2px;
+                        }
+                    }
+                    
+                    #itemCard:hover { 
+                        border-color: #5194ff;
+                        -webkit-animation: grow .1s  normal forwards ease-in-out; /* Safari 4.0 - 8.0 */
+                        animation: grow 0.1s ;
+                        border-width: 4px;
                     }
                     body{
                         background-color: rgb(50, 50, 50) !important;
@@ -101,7 +131,7 @@ class IndexView {
                     <br><br><br>
                     <div id="push"></div>
                 </div>
-                <div id="footer" style="color: white"><br> All Rights Reserved.</div>
+                <div id="footer" style="color: white"><br></div>
             </body>
         </html>
         <?php

@@ -20,33 +20,36 @@ class ApplicationController {
 
     //index action that displays all books
     public function index() {
-        //retrieve all books and store them in an array
-        /*$inventory = $this->userModel->Get;
-
-        if (!inventory) {
-            //display an error
-            $message = "There was a problem displaying books.";
-            $this->error($message);
-            return;
+        
+        if(isset($_SESSION['user'])){
+            $user = $this->userModel->GetUser($_SESSION['user']);
+            $user->LoadInventory();
+            $vendor = $this->userModel->GetVendor();
+            $vendor->LoadInventory();
+            $view = new HomeIndex();
+            $view->display($user, $vendor);
+        }else{
+            $this->login();
         }
-        */
-        $user = $this->userModel->GetUser();
-        $user->LoadInventory();
-        $vendor = $this->userModel->GetVendor();
-        $vendor->LoadInventory();
-        $view = new HomeIndex();
-        $view->display($user, $vendor);
+        
     }
     
-    public function logout() {
-        $this->userModel->logout();
-        
-        if(isset($_COOKIE['user'])){
-            unset($_COOKIE['user']);
-            setcookie('user', null, -1, "/");
+    public function logout() {        
+        if(isset($_SESSION['user'])){
+            session_destroy();
         }
         
         $this->login();
+    }
+    
+    public function verifyUser(){
+        if(isset($_POST['username']) && isset($_POST['password'])){
+             if ($this->userModel->VerifyUser($_POST['username'], $_POST['password']))
+                $this->index();
+            else
+                $this->error("Login Failed");           
+        }else
+            $this->error("Login Failed");
     }
 
     //show details of a book
@@ -60,7 +63,7 @@ class ApplicationController {
         if(isset($_COOKIE["user"])) {
             $this->index();
         }else{
-            $view = new Login();
+            $view = new LoginView();
             $view->display();
         }
     }
