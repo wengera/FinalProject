@@ -71,6 +71,25 @@ class IndexView {
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
                 <style>
+                    .grid {
+                        padding-top: 10px;
+                        display: grid;
+                        width: 100%;
+                        max-width: 750px;
+                        margin: 0 auto;
+                        grid-template-columns: repeat(6, 1fr);
+                        grid-template-rows: repeat(6, 1fr);
+                        grid-gap: 2px;
+                    }
+
+                    /* items */
+
+                    .grid div {
+                      color: white;
+                      font-size: 20px;
+                      padding: 0px;
+                      }
+                      
                     #floatingDetails{
                         z-index: 1;
                         position: absolute;
@@ -103,6 +122,9 @@ class IndexView {
                     
                     
                     #playerInventoryContainer{
+                        padding-top: 40px;
+                        border-width: 1px !important;
+                        border-color: #ffffff;
                         margin-left: 20px;
                         margin-right: 0px;
                         width: 475px;
@@ -185,6 +207,10 @@ class IndexView {
                 });
                 function toggleFloatingDetails(reveal){
                     document.getElementById("floatingDetails").hidden = !reveal;
+                }
+                
+                function updateDetailBox(json){
+                    console.log("json: " + json);
                 }
             </script>
         </html>
