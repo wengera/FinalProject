@@ -50,7 +50,7 @@ class UserModel {
     }
     
     public function GetVendor(){
-        $sql = "SELECT id, username, firstName, lastName, phone, inventory FROM " . $this->tblUser .
+        $sql = "SELECT id, username, firstName, lastName, phone, inventory, level, coins FROM " . $this->tblUser .
                 " WHERE username = 'vendor'";
         
         //execute the query
@@ -79,7 +79,7 @@ class UserModel {
     
     public function GetUser($username) {
         
-        $sql = "SELECT id, username, password, firstName, lastName, phone, inventory FROM " . $this->tblUser .
+        $sql = "SELECT id, username, password, firstName, lastName, phone, inventory, level, coins FROM " . $this->tblUser .
                 " WHERE username = '" . $username . "'";
         
         //execute the query
@@ -100,7 +100,7 @@ class UserModel {
 
     public function VerifyUser($username, $password) {
         
-        $sql = "SELECT id, username, password, firstName, lastName, phone, inventory FROM " . $this->tblUser .
+        $sql = "SELECT id, username, password, firstName, lastName, phone, inventory, level, coins FROM " . $this->tblUser .
                 " WHERE username = '" . $username . "'";
         
         //execute the query

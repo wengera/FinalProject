@@ -19,6 +19,9 @@ class IndexView {
               <li class="nav-item">
                 <a class="nav-link" href="index">Home</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="search">Search</a>
+              </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <?php
@@ -70,15 +73,16 @@ class IndexView {
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+                <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
                 <style>
                     .grid {
                         padding-top: 10px;
                         display: grid;
                         width: 100%;
-                        max-width: 750px;
+                        max-width: 650px;
                         margin: 0 auto;
-                        grid-template-columns: repeat(6, 1fr);
-                        grid-template-rows: repeat(6, 1fr);
+                        grid-template-columns: repeat(5, 1fr);
+                        grid-template-rows: repeat(5, 1fr);
                         grid-gap: 2px;
                     }
 
@@ -127,7 +131,7 @@ class IndexView {
                         border-color: #ffffff;
                         margin-left: 20px;
                         margin-right: 0px;
-                        width: 475px;
+                        max-width: 650px;
                     }
                     #formCard{
                         padding: 10px 10px 10px 10px;
@@ -170,7 +174,7 @@ class IndexView {
                         border-width: 4px;
                     }
                     body{
-                        background-color: rgb(50, 50, 50) !important;
+                        background-color: rgb(30, 30, 30) !important;
                     }
                     
                     .container{
@@ -200,6 +204,7 @@ class IndexView {
                 </div>
                 <div id="footer" style="color: white"><br></div>
             </body>
+            
             <script>
                 document.addEventListener("mousemove", function(event){
                     document.getElementById("floatingDetails").style.left = event.pageX + 10 + "px";

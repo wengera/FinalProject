@@ -76,6 +76,34 @@ class InventoryModel {
     }
     
     //Returns an item from the database based on a provided item id
+    public function SearchItems($key) {
+        
+        $sql = "SELECT * FROM " . $this->tblItem .
+                " WHERE name LIKE '%" . $key . "%'";
+        
+        //execute the query
+        $query = $this->dbConnection->query($sql);
+        
+        // if the query failed, return false. 
+        if (!$query)
+            return false;
+        
+        //if the query succeeded, but no item was found.
+        if ($query->num_rows == 0)
+            return 0;
+        
+        $items = array();
+
+        //loop through all rows in the returned inventory set
+        while ($obj = $query->fetch_object()) {
+            $item = new Item((array)$obj);
+            $items[] = $item;
+        }
+        
+        return $items;
+    }
+    
+    //Returns an item from the database based on a provided item id
     public function GetItem($key) {
         
         $sql = "SELECT * FROM " . $this->tblItem .

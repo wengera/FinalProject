@@ -18,6 +18,7 @@ return array(
     'InventoryModel' => $baseDir . '/models/InventoryModel.class.php',
     'Item' => $baseDir . '/models/Item.class.php',
     'LoginView' => $baseDir . '/views/login/login.class.php',
+    'SearchIndex' => $baseDir . '/views/search/search.class.php',
     'User' => $baseDir . '/models/User.class.php',
     'UserModel' => $baseDir . '/models/UserModel.class.php',
 );

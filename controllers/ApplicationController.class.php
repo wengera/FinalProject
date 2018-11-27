@@ -37,6 +37,22 @@ class ApplicationController {
         
     }
     
+    //index action that displays all books
+    public function search() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        $view = new SearchIndex();
+        
+        $results = array();
+        
+        if(isset($_POST['searchValue']))
+            $results = $this->inventoryModel->SearchItems($_POST['searchValue']);
+        
+        $view->display($results);
+    }
+    
     public function logout() {  
         if (session_status() == PHP_SESSION_NONE) {
             session_start();

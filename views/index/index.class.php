@@ -1,9 +1,9 @@
 <?php
 /*
- * Author: Louie Zhu
- * Date: Mar 6, 2016
+ * Author: Alex Wenger
+ * Date: 11/27/2018
  * Name: index.class.php
- * Description: This class defines the method "display" that displays the home page.
+ * Description: This page displays the inventory of both the user and the vendor
  */
 
 class HomeIndex extends IndexView {
@@ -26,71 +26,131 @@ class HomeIndex extends IndexView {
 
         <div class="container-fluid">
             <div class="row">
-            <div class="col-lg-5">
-                <div class="container-fluid" id="playerInventoryContainer">
-                <h2 style="color: white;"> <?= $user->GetUsername() ?> </h2>
-                <section class="grid">
-                    <?php
-                        try{
-                            $inventory = $user->GetInventory();
-                            $size = count($inventory);
-                            $counter = 0;
-                            while ($counter < $size){?>
-                                    <div class="card" id="itemCard"><div class="card-body" id="itemCardBody">
-                                            <form method="POST" action="details">
-                                                <input type="hidden" name="itemId" value="<?= $user->GetItem($counter)->GetId() ?>" />
-                                                <input type="image" onmouseover="toggleFloatingDetails(true)" onmouseenter="updateDetailBox('<?= $user->GetItem($counter)->ToJson() ?> ')" onmouseleave="toggleFloatingDetails(false)" src="<?= self::getIcon($user, $counter) ?>" id="itemIcon" alt="" />
-                                            </form>
-                                        </div>
-                                    </div>
-                               <?php
-                                $counter += 1;
-                            }
-                        }catch (Exception $e){
-                            echo "what";
-                        }
-                    
-                              
-                    ?>
-                </section>
-                <div class="form-group">
-                    <label style="color: white;" for="searchUser">Search:</label>
-                    <input type="text" class="form-control" id="searchUser">
-                  </div>
+                <div class="col-lg-5">
+                    <div class="row">
+                        <div class="col-lg-5">
+                           
+                        </div>
+                        <div class="col-lg-5">
+                             <h2 style="color:white;margin-top: 20px;"> <?= $user->GetCoins() ?> <i class="fa fa-ils" aria-hidden="true"></i></h1>
+                        </div>
+                        <div class="col-lg-5">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <h1 style="color:white;margin-top: 20px;"> Shop </h1>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            
+                        </div>
+                        <div class="col-lg-5">
+                            <h2 style="color:white;margin-top: 20px;"> <?= $user->GetLevel() ?> <i class="fa fa-level-up" aria-hidden="true"></i> </h1>
+                        </div>
+                        <div class="col-lg-5">
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-5">
+
+                    <div class="container-fluid" id="playerInventoryContainer">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-4">
+
+                                    </div>
+                                    <div class="col-lg-4">
+                                         <h2 style="color: transparent;"> <?= $user->GetUsername() ?> </h2>
+                                    </div>
+                                    <div class="col-lg-4">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">                        
+                            <section class="grid">
+                                <?php
+                                    try{
+                                        $inventory = $user->GetInventory();
+                                        $size = count($inventory);
+                                        $counter = 0;
+                                        while ($counter < $size){?>
+                                                <div class="card" id="itemCard"><div class="card-body" id="itemCardBody">
+                                                        <form method="POST" action="details">
+                                                            <input type="hidden" name="itemId" value="<?= $user->GetItem($counter)->GetId() ?>" />
+                                                            <input type="image" onmouseover="toggleFloatingDetails(true)" onmouseenter="updateDetailBox('<?= $user->GetItem($counter)->ToJson() ?> ')" onmouseleave="toggleFloatingDetails(false)" src="<?= self::getIcon($user, $counter) ?>" id="itemIcon" alt="" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                           <?php
+                                            $counter += 1;
+                                        }
+                                    }catch (Exception $e){
+                                        echo "what";
+                                    }
+
+
+                                ?>
+                            </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-2">
                 </div>
-            <div class="col-lg-5">
-                <div class="container-fluid" id="playerInventoryContainer">
-                    <h2 style="color: white;"> <?= $vendor->GetUsername() ?> </h2>
-                    <section class="grid">
-                        <?php
-                            try{
-                                $inventory = $vendor->GetInventory();
-                                $size = count($inventory);
-                                $counter = 0;
-                                while ($counter < $size){?>
-                                        <div class="card" id="itemCard"><div class="card-body" id="itemCardBody">
-                                                <form method="POST" action="details">
-                                                    <input type="hidden" name="itemId" value="<?= $vendor->GetItem($counter)->GetId() ?>" />
-                                                    <input type="image" onmouseover="toggleFloatingDetails(true)" onmouseenter="updateDetailBox('<?= $vendor->GetItem($counter)->ToJson() ?> ')" onmouseleave="toggleFloatingDetails(false)" src="<?= self::getIcon($vendor, $counter) ?>" id="itemIcon" alt="" />
-                                                </form>
-                                            </div>
-                                        </div>
-                                   <?php
-                                    $counter += 1;
-                                }
-                            }catch (Exception $e){
-                                echo "what";
-                            }
+                <div class="col-lg-5">
+                    <div class="container-fluid" id="playerInventoryContainer">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <h3 style="color:white;"> <?= $vendor->GetCoins() ?> <i class="fa fa-ils" aria-hidden="true"></i></h1>
+                                    </div>
+                                    <div class="col-lg-4">
+                                    </div>
+                                    <div class="col-lg-4">
+                                         <h3 style="color: white;"> Shopkeeper </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">    
+                                <section class="grid">
+                                    <?php
+                                        try{
+                                            $inventory = $vendor->GetInventory();
+                                            $size = count($inventory);
+                                            $counter = 0;
+                                            while ($counter < $size){?>
+                                                    <div class="card" id="itemCard"><div class="card-body" id="itemCardBody">
+                                                            <form method="POST" action="details">
+                                                                <input type="hidden" name="itemId" value="<?= $vendor->GetItem($counter)->GetId() ?>" />
+                                                                <input type="image" onmouseover="toggleFloatingDetails(true)" onmouseenter="updateDetailBox('<?= $vendor->GetItem($counter)->ToJson() ?> ')" onmouseleave="toggleFloatingDetails(false)" src="<?= self::getIcon($vendor, $counter) ?>" id="itemIcon" alt="" />
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                               <?php
+                                                $counter += 1;
+                                            }
+                                        }catch (Exception $e){
+                                            echo "what";
+                                        }
 
 
-                        ?>
-                    </section>
-                    <div class="form-group">
-                        <label style="color: white;" for="searchVendor">Search:</label>
-                        <input type="text" class="form-control" id="searchVendor">
+                                    ?>
+                                </section>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

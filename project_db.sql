@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2018 at 08:18 PM
+-- Generation Time: Nov 27, 2018 at 10:06 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.8
 
@@ -98,21 +98,23 @@ CREATE TABLE `user` (
   `firstName` varchar(30) NOT NULL,
   `lastName` varchar(30) NOT NULL,
   `phone` int(11) NOT NULL,
-  `inventory` longtext NOT NULL
+  `inventory` longtext NOT NULL,
+  `level` int(11) NOT NULL,
+  `coins` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `firstName`, `lastName`, `phone`, `inventory`) VALUES
-(1, 'awenger', 'password01', 'Alex', 'Wenger', 3308004, '{[{\"1\": \"5\"}, {\"2\": \"6\"}]}'),
-(2, 'jchan', '01010101', 'Johnny', 'Chan', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}]}'),
-(4, 'flexluther', 'isthatbad?', 'Todd', 'Marshal', 1234567, '{[]}'),
-(5, 'OsamaBinLaggin', 'ohitslit', 'Michael', 'Michaelson', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}]}'),
-(7, 'wengera', '$2y$10$3BQmmrp7ByWob0zskA2DTup', 'Alex', 'Wenger', 2147483647, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}, {\"4\": 3}]}'),
-(19, 'vendor', '\"\"', 'John', 'Destroyer of Worlds', 6666666, '{\r\n	\"inventory\": [{\r\n		\"0\": 30\r\n	}, {\r\n		\"1\": 30\r\n	}, {\r\n		\"2\": 30\r\n	}, {\r\n		\"3\": 30\r\n	}, {\r\n		\"4\": 30\r\n	}, {\r\n		\"5\": 30\r\n	}, {\r\n		\"6\": 30\r\n	}, {\r\n		\"7\": 30\r\n	}, {\r\n		\"8\": 30\r\n	}]\r\n}'),
-(20, 'wengera2', 'test', 'Alex', 'Wenger', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}]}');
+INSERT INTO `user` (`id`, `username`, `password`, `firstName`, `lastName`, `phone`, `inventory`, `level`, `coins`) VALUES
+(1, 'awenger', 'password01', 'Alex', 'Wenger', 3308004, '{[{\"1\": \"5\"}, {\"2\": \"6\"}]}', 0, 0),
+(2, 'jchan', '01010101', 'Johnny', 'Chan', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}]}', 0, 0),
+(4, 'flexluther', 'isthatbad?', 'Todd', 'Marshal', 1234567, '{[]}', 0, 0),
+(5, 'OsamaBinLaggin', 'ohitslit', 'Michael', 'Michaelson', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}]}', 0, 0),
+(7, 'wengera', '$2y$10$3BQmmrp7ByWob0zskA2DTup', 'Alex', 'Wenger', 2147483647, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}, {\"4\": 3}]}', 40, 560),
+(19, 'vendor', '\"\"', 'John', 'Destroyer of Worlds', 6666666, '{\r\n	\"inventory\": [{\r\n		\"0\": 30\r\n	}, {\r\n		\"1\": 30\r\n	}, {\r\n		\"2\": 30\r\n	}, {\r\n		\"3\": 30\r\n	}, {\r\n		\"4\": 30\r\n	}, {\r\n		\"5\": 30\r\n	}, {\r\n		\"6\": 30\r\n	}, {\r\n		\"7\": 30\r\n	}, {\r\n		\"8\": 30\r\n	}]\r\n}', 0, 3979),
+(20, 'wengera2', 'test', 'Alex', 'Wenger', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}]}', 0, 0);
 
 --
 -- Indexes for dumped tables

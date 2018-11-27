@@ -9,7 +9,7 @@
 class User{
     
     //private properties of a User object
-    private $id, $username, $firstName, $lastName, $phone, $inventory, $icon;
+    private $id, $username, $firstName, $lastName, $phone, $inventory, $icon, $level, $coins;
     public $inventoryLoaded = false;
     
     //the constructor that initializes all properties
@@ -20,6 +20,8 @@ class User{
         $this->lastName = $data["lastName"];
         $this->phone = $data["phone"];
         $this->inventory = $data["inventory"];
+        $this->level = $data["level"];
+        $this->coins = $data["coins"];
     }
     
     public function GetId(){
@@ -40,6 +42,14 @@ class User{
     
     public function GetPhone(){
        return $this->phone;
+    }
+    
+    public function GetCoins(){
+       return $this->coins;
+    }
+    
+    public function GetLevel(){
+       return $this->level;
     }
     
     public function GetInventory(){

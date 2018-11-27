@@ -19,6 +19,7 @@ class ComposerStaticInit3b15c8755527bcb36b2cb0456783efce
         'InventoryModel' => __DIR__ . '/../..' . '/models/InventoryModel.class.php',
         'Item' => __DIR__ . '/../..' . '/models/Item.class.php',
         'LoginView' => __DIR__ . '/../..' . '/views/login/login.class.php',
+        'SearchIndex' => __DIR__ . '/../..' . '/views/search/search.class.php',
         'User' => __DIR__ . '/../..' . '/models/User.class.php',
         'UserModel' => __DIR__ . '/../..' . '/models/UserModel.class.php',
     );
