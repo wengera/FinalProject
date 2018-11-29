@@ -11,6 +11,7 @@ class ComposerStaticInit3b15c8755527bcb36b2cb0456783efce
         'ComposerAutoloaderInit3b15c8755527bcb36b2cb0456783efce' => __DIR__ . '/..' . '/composer/autoload_real.php',
         'Composer\\Autoload\\ClassLoader' => __DIR__ . '/..' . '/composer/ClassLoader.php',
         'Composer\\Autoload\\ComposerStaticInit3b15c8755527bcb36b2cb0456783efce' => __DIR__ . '/..' . '/composer/autoload_static.php',
+        'CreateItem' => __DIR__ . '/../..' . '/views/create/create_item.class.php',
         'Database' => __DIR__ . '/../..' . '/application/database.class.php',
         'DetailsView' => __DIR__ . '/../..' . '/views/details/details.class.php',
         'Dispatcher' => __DIR__ . '/../..' . '/application/dispatcher.class.php',

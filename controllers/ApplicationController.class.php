@@ -42,15 +42,62 @@ class ApplicationController {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        
-        $view = new SearchIndex();
-        
-        $results = array();
-        
-        if(isset($_POST['searchValue']))
-            $results = $this->inventoryModel->SearchItems($_POST['searchValue']);
-        
-        $view->display($results);
+        if(isset($_SESSION['user'])){
+            $view = new SearchIndex();
+
+            $results = array();
+
+            if(isset($_POST['searchValue'])){
+                $searchBy = "name";
+                if (isset($_POST['optradio']))
+                    $searchBy = strtolower($_POST['optradio']);
+
+                $results = $this->inventoryModel->SearchItems($_POST['searchValue'], $searchBy);
+                
+                if ($results == null)
+                    $view->display($results, "Items not found");
+                else
+                    $view->display($results, null);
+            }else
+                $view->display($results, null);
+            
+        }else{
+            $this->login();
+        }
+    }
+    
+    public function create(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(isset($_SESSION['user']) && $_SESSION['user'] == "admin"){
+            $view = new CreateItem();
+            $view->display(null);
+        }else{
+            $this->login();
+        }
+    }
+    
+    public function createItem(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(isset($_SESSION['user'])){
+            if(isset($_POST['name']) && !empty($_POST["name"]) && isset($_POST['price']) && !empty($_POST["price"]) && isset($_POST['description']) && !empty($_POST["description"]) && isset($_POST['iconId']) && !empty($_POST["iconId"])){
+                 if ($this->inventoryModel->CreateItem($_POST['name'], $_POST['price'], $_POST['description'], $_POST['iconId'])){
+                    $view = new CreateItem();
+                    $view->display(null);
+                 }else{
+                    $view = new CreateItem();
+                    $view->display("Unable to create item.");
+                }
+            }else{
+                $view = new CreateItem();
+                $view->display("Missing form data.");
+            }
+        }else{
+            $this->login();
+        }
     }
     
     public function logout() {  
@@ -102,7 +149,7 @@ class ApplicationController {
             $this->index();
         }else{
             $view = new LoginView();
-            $view->display();
+            $view->display(null);
         }
     }
 

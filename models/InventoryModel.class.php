@@ -76,10 +76,10 @@ class InventoryModel {
     }
     
     //Returns an item from the database based on a provided item id
-    public function SearchItems($key) {
+    public function SearchItems($key, $searchBy) {
         
         $sql = "SELECT * FROM " . $this->tblItem .
-                " WHERE name LIKE '%" . $key . "%'";
+                " WHERE " . $searchBy . " LIKE '%" . $key . "%'";
         
         //execute the query
         $query = $this->dbConnection->query($sql);
@@ -101,6 +101,23 @@ class InventoryModel {
         }
         
         return $items;
+    }
+    
+    public function CreateItem($name, $price, $description, $iconId) {
+        //SQL select statement
+        $id = $this->GenerateItemId();
+        
+        if ($id >= 0){
+            $sql = "INSERT INTO " . $this->db->getItemTable() . " VALUES (" . $id . ", '" . $price . "', '" . $name . "', '" . $description . "', '" . $iconId . "')";
+
+            //execute the query
+            $query = $this->dbConnection->query($sql);
+
+            return $query;
+        }else{
+            return false;
+        }
+        
     }
     
     //Returns an item from the database based on a provided item id
@@ -127,6 +144,19 @@ class InventoryModel {
         $item = new Item((array)$obj);
         
         return $item;
+    }
+    
+    public function GenerateItemId(){
+        $sql = "SELECT id";
+        $sql .= " FROM " . $this->db->getItemTable();
+        
+        $query = $this->dbConnection->query($sql);
+        
+        if ($query){
+            return $query->num_rows + 1;
+        }else{
+            return -1;
+        }
     }
     
     public function GetIcon($iconId) {

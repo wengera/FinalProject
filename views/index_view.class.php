@@ -22,6 +22,9 @@ class IndexView {
               <li class="nav-item">
                 <a class="nav-link" href="search">Search</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="create">Create Item</a>
+              </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <?php
@@ -45,7 +48,7 @@ class IndexView {
     }
     static public function displayFloatingDetails(){
         ?>
-        <div id="floatingDetails">
+        <div id="floatingDetails" hidden="true">
             <div class="card" id="cardDetails">
                 <div class="card-body" style="padding-top: 20px">
                   <h4 class="card-title" id="name" style="color:white;"> item</h4>
@@ -127,8 +130,8 @@ class IndexView {
                     
                     #playerInventoryContainer{
                         padding-top: 40px;
-                        border-width: 1px !important;
-                        border-color: #ffffff;
+                        border-width: 2px;
+                        border-color: rgba(200, 200, 200, 1);
                         margin-left: 20px;
                         margin-right: 0px;
                         max-width: 650px;
@@ -184,9 +187,58 @@ class IndexView {
                     }
                     
                     
+                    
+                    
+                    /* The snackbar - position it at the bottom and in the middle of the screen */
+                    #snackbar {
+                        visibility: hidden; /* Hidden by default. Visible on click */
+                        min-width: 250px; /* Set a default minimum width */
+                        margin-left: -125px; /* Divide value of min-width by 2 */
+                        background-color: #333; /* Black background color */
+                        color: #fff; /* White text color */
+                        text-align: center; /* Centered text */
+                        border-radius: 2px; /* Rounded borders */
+                        padding: 16px; /* Padding */
+                        position: fixed; /* Sit on top of the screen */
+                        z-index: 1; /* Add a z-index if needed */
+                        left: 50%; /* Center the snackbar */
+                        bottom: 30px; /* 30px from the bottom */
+                    }
+
+                    /* Show the snackbar when clicking on a button (class added with JavaScript) */
+                    #snackbar.show {
+                        visibility: visible; /* Show the snackbar */
+                        /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+                       However, delay the fade out process for 2.5 seconds */
+                       -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                       animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                    }
+
+                    /* Animations to fade the snackbar in and out */
+                    @-webkit-keyframes fadein {
+                        from {bottom: 0; opacity: 0;} 
+                        to {bottom: 30px; opacity: 1;}
+                    }
+
+                    @keyframes fadein {
+                        from {bottom: 0; opacity: 0;}
+                        to {bottom: 30px; opacity: 1;}
+                    }
+
+                    @-webkit-keyframes fadeout {
+                        from {bottom: 30px; opacity: 1;} 
+                        to {bottom: 0; opacity: 0;}
+                    }
+
+                    @keyframes fadeout {
+                        from {bottom: 30px; opacity: 1;}
+                        to {bottom: 0; opacity: 0;}
+                    }
+                    
+                    
                 </style>
             </head>
-            <body>
+            <body onload="clearForms()">
                 <?php self::displayNavBar() ?>
                 <div id="top"></div>
                 <div id='wrapper'>
@@ -197,19 +249,46 @@ class IndexView {
                 }//end of displayHeader function
                 
                 //this method displays the page footer
-                public static function displayFooter() {
+                public static function displayFooter($snackBarMessage = null) {
                     ?>
                     <br><br><br>
                     <div id="push"></div>
                 </div>
+                <!-- The actual snackbar -->
+                <div id="snackbar"></div>
                 <div id="footer" style="color: white"><br></div>
             </body>
             
             <script>
+                function clearForms()
+                {
+                  var i;
+                  for (i = 0; (i < document.forms.length); i++) {
+                    document.forms[i].reset();
+                  }
+                }
+                
+                function snackbar(snackBarMessage) {
+                    console.log("Snackbar: " + snackBarMessage);
+                    // Get the snackbar DIV
+                    var x = document.getElementById("snackbar");
+                    if (snackBarMessage != "" && snackBarMessage != null){
+                        
+                        x.innerHTML = snackBarMessage;
+
+                        // Add the "show" class to DIV
+                        x.className = "show";
+
+                        // After 3 seconds, remove the show class from DIV
+                        setTimeout(function(){ x.className = x.className.replace("show", ""); x.innerHTML = ""; }, 3000);
+                    }
+                }
+                
                 document.addEventListener("mousemove", function(event){
                     document.getElementById("floatingDetails").style.left = event.pageX + 10 + "px";
                     document.getElementById("floatingDetails").style.top = (event.pageY - 10) + "px";
                 });
+                
                 function toggleFloatingDetails(reveal){
                     document.getElementById("floatingDetails").hidden = !reveal;
                 }
@@ -217,8 +296,11 @@ class IndexView {
                 function updateDetailBox(json){
                     console.log("json: " + json);
                 }
+                
+                
             </script>
         </html>
         <?php
+        echo '<script type="text/javascript"> snackbar("', $snackBarMessage,'"); </script>';
     } //end of displayFooter function
 }

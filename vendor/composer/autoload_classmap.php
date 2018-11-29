@@ -10,6 +10,7 @@ return array(
     'ComposerAutoloaderInit3b15c8755527bcb36b2cb0456783efce' => $vendorDir . '/composer/autoload_real.php',
     'Composer\\Autoload\\ClassLoader' => $vendorDir . '/composer/ClassLoader.php',
     'Composer\\Autoload\\ComposerStaticInit3b15c8755527bcb36b2cb0456783efce' => $vendorDir . '/composer/autoload_static.php',
+    'CreateItem' => $baseDir . '/views/create/create_item.class.php',
     'Database' => $baseDir . '/application/database.class.php',
     'DetailsView' => $baseDir . '/views/details/details.class.php',
     'Dispatcher' => $baseDir . '/application/dispatcher.class.php',

@@ -8,11 +8,11 @@
 
 class LoginView extends IndexView {
     
-    public function display() {
+    public function display($errorMsg) {
         //display page header
         parent::displayHeader("");
         ?>    
-        <div class="container-fluid">
+        <div class="container-fluid" style="margin-top: 40px;">
             <div class="row">
                 <div class="col-lg-4">
                     
@@ -56,7 +56,7 @@ class LoginView extends IndexView {
 
         <?php
         //display page footer
-        parent::displayFooter();
+        parent::displayFooter($errorMsg);
     }
 
 }

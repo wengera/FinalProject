@@ -48,7 +48,7 @@ class HomeIndex extends IndexView {
                             
                         </div>
                         <div class="col-lg-5">
-                            <h2 style="color:white;margin-top: 20px;"> <?= $user->GetLevel() ?> <i class="fa fa-level-up" aria-hidden="true"></i> </h1>
+                            <h2 style="color:white;margin-top: 20px;"> Level <?= $user->GetLevel() ?> <i class="fa fa-level-up" aria-hidden="true"></i> </h1>
                         </div>
                         <div class="col-lg-5">
                             

@@ -6,15 +6,13 @@
  * Description: This page allows the user to search for possible in-game items
  */
 
-header("Cache-Control: no cache");
-
 class SearchIndex extends IndexView {
 
     public function getIcon($item){
         return $item->GetIcon();
     }
     
-    public function display($results) {
+    public function display($results, $snackbarMessage) {
         //display page header
         parent::displayHeader("");
         ?>    
@@ -28,7 +26,9 @@ class SearchIndex extends IndexView {
                     <div class="container-fluid" id="playerInventoryContainer">
                     <section class="grid">
                         <?php
+                        if ($results != null){
                             try{
+                                
                                 $size = count($results);
                                 $counter = 0;
                                 while ($counter < $size){?>
@@ -45,14 +45,26 @@ class SearchIndex extends IndexView {
                             }catch (Exception $e){
                                 echo "what";
                             }
-
+                        }
 
                         ?>
                     </section>
                     <form method="post" action="search">
+                        
                         <div class="form-group">
-                            <label style="color: white;" for="searchUser">Search:</label>
+                            <label style="color: white;" for="searchUser">Search:</label> <br />
+                            <div class="form-check-inline">
+                            <label class="form-check-label" style="color:white;">
+                                <input type="radio" class="form-check-input" name="optradio" value="name" checked>Name
+                              </label>
+                            </div>
+                            <div class="form-check-inline">
+                              <label class="form-check-label" style="color:white;">
+                                <input type="radio" class="form-check-input" name="optradio" value="description" >Description
+                              </label>
+                            </div>
                             <input type="text" name="searchValue" class="form-control" id="searchUser">
+                            
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
@@ -66,7 +78,7 @@ class SearchIndex extends IndexView {
 
         <?php
         //display page footer
-        parent::displayFooter();
+        parent::displayFooter($snackbarMessage);
     }
 
 }
