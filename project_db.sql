@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2018 at 10:06 PM
+-- Generation Time: Nov 29, 2018 at 04:39 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.8
 
@@ -80,10 +80,11 @@ INSERT INTO `item` (`id`, `price`, `name`, `description`, `icon_id`) VALUES
 (2, 1, 'Water', 'It\'s water.', 2),
 (3, 10, 'Iron Ingot', 'An ingot of iron.', 3),
 (4, 100, 'Leather Vest', 'Tight worn vest made of leather.', 4),
-(5, 5, 'Boots', 'You can put these on, and they like, add more to your speed. Man.', 5),
+(5, 5, 'Boots', 'Enchanted leather boots. Makes you run faster.', 5),
 (6, 12, 'Bow', 'Standard Hunting Bow', 6),
 (7, 20, 'Necromancy: Summon Undead', 'Teaches the player how to cast the spell: Summon Undead', 7),
-(8, 30, 'Huntsman\'s Axe', 'Huntsman\'s axe used for felling trees.', 8);
+(8, 30, 'Huntsman\'s Axe', 'Huntsman\'s axe used for felling trees.', 8),
+(10, 14, 'Gloves', 'These are gloves', 5);
 
 -- --------------------------------------------------------
 
@@ -114,7 +115,8 @@ INSERT INTO `user` (`id`, `username`, `password`, `firstName`, `lastName`, `phon
 (5, 'OsamaBinLaggin', 'ohitslit', 'Michael', 'Michaelson', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}]}', 0, 0),
 (7, 'wengera', '$2y$10$3BQmmrp7ByWob0zskA2DTup', 'Alex', 'Wenger', 2147483647, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}, {\"4\": 3}]}', 40, 560),
 (19, 'vendor', '\"\"', 'John', 'Destroyer of Worlds', 6666666, '{\r\n	\"inventory\": [{\r\n		\"0\": 30\r\n	}, {\r\n		\"1\": 30\r\n	}, {\r\n		\"2\": 30\r\n	}, {\r\n		\"3\": 30\r\n	}, {\r\n		\"4\": 30\r\n	}, {\r\n		\"5\": 30\r\n	}, {\r\n		\"6\": 30\r\n	}, {\r\n		\"7\": 30\r\n	}, {\r\n		\"8\": 30\r\n	}]\r\n}', 0, 3979),
-(20, 'wengera2', 'test', 'Alex', 'Wenger', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}]}', 0, 0);
+(20, 'wengera2', 'test', 'Alex', 'Wenger', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}]}', 0, 0),
+(21, 'admin', 'admin', 'Kevin', 'June', 1234567, '{\r\n	\"inventory\": [{\r\n		\"0\": 30\r\n	}, {\r\n		\"1\": 30\r\n	}, {\r\n		\"2\": 30\r\n	}, {\r\n		\"3\": 30\r\n	}, {\r\n		\"4\": 30\r\n	}, {\r\n		\"5\": 30\r\n	}, {\r\n		\"6\": 30\r\n	}, {\r\n		\"7\": 30\r\n	}, {\r\n		\"8\": 30\r\n	}]\r\n}', 99, 9999);
 
 --
 -- Indexes for dumped tables
@@ -147,7 +149,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables
