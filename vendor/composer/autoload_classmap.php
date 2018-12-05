@@ -14,6 +14,7 @@ return array(
     'Database' => $baseDir . '/application/database.class.php',
     'DetailsView' => $baseDir . '/views/details/details.class.php',
     'Dispatcher' => $baseDir . '/application/dispatcher.class.php',
+    'FloatingBody' => $baseDir . '/views/floatingBox/floating_body.class.php',
     'HomeIndex' => $baseDir . '/views/index/index.class.php',
     'IndexView' => $baseDir . '/views/index_view.class.php',
     'InventoryModel' => $baseDir . '/models/InventoryModel.class.php',

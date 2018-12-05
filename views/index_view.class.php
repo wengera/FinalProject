@@ -19,12 +19,17 @@ class IndexView {
               <li class="nav-item">
                 <a class="nav-link" href="index">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="search">Search</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="create">Create Item</a>
-              </li>
+              
+                  <?php 
+                         if(isset($_SESSION["user"])){ 
+                              echo '<li class="nav-item"><a class="nav-link" href="search">Search</a></li>';
+                          }
+                          if(isset($_SESSION["user"]) && $_SESSION["user"] == "admin"){ 
+                              echo '<li class="nav-item"><a class="nav-link" href="create">Create Item</a></li>';
+                          }
+                
+                        ?>
+              
             </ul>
             <ul class="navbar-nav ml-auto">
                 <?php
@@ -46,6 +51,11 @@ class IndexView {
           </nav>
     <?php
     }
+    
+    static public function serverMessage($snackBarMessage){
+        echo '<script type="text/javascript"> snackbar("', $snackBarMessage,'"); </script>';
+    }
+    
     static public function displayFloatingDetails(){
         ?>
         <div id="floatingDetails" hidden="true">
@@ -72,6 +82,7 @@ class IndexView {
                     //create the JavaScript variable for the base url
                     var base_url = "<?= BASE_URL ?>";
                 </script>
+                <script src="../main.js" type="text/javascript"></script>
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -194,9 +205,10 @@ class IndexView {
                         visibility: hidden; /* Hidden by default. Visible on click */
                         min-width: 250px; /* Set a default minimum width */
                         margin-left: -125px; /* Divide value of min-width by 2 */
-                        background-color: #333; /* Black background color */
-                        color: #fff; /* White text color */
+                        background-color: #fff; /* White background color */
+                        color: #222; /* Black text color */
                         text-align: center; /* Centered text */
+                        font-weight: 400;
                         border-radius: 2px; /* Rounded borders */
                         padding: 16px; /* Padding */
                         position: fixed; /* Sit on top of the screen */
@@ -248,9 +260,9 @@ class IndexView {
                     <?php
                 }//end of displayHeader function
                 
-                //this method displays the page footer
-                public static function displayFooter($snackBarMessage = null) {
-                    ?>
+    //this method displays the page footer
+    public static function displayFooter() {
+    ?>
                     <br><br><br>
                     <div id="push"></div>
                 </div>
@@ -291,16 +303,23 @@ class IndexView {
                 
                 function toggleFloatingDetails(reveal){
                     document.getElementById("floatingDetails").hidden = !reveal;
+                    //updateDetailBox(GetItemJson("0"));
+                }
+                
+                function getItemFloatingDetails(id){
+                    GetItemJson(id);
                 }
                 
                 function updateDetailBox(json){
-                    console.log("json: " + json);
+                    $( "#floatingDetails" ).find( "#name" )[0].innerHTML = json["name"];
+                    $( "#floatingDetails" ).find( "#price" )[0].innerHTML = "<b>Price:</b> " + json["price"]
+                    $( "#floatingDetails" ).find( "#description" )[0].innerHTML = "<b>Description:</b> " + json["description"];
                 }
-                
+
                 
             </script>
         </html>
         <?php
-        echo '<script type="text/javascript"> snackbar("', $snackBarMessage,'"); </script>';
+        
     } //end of displayFooter function
 }

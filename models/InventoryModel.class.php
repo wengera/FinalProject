@@ -77,9 +77,17 @@ class InventoryModel {
     
     //Returns an item from the database based on a provided item id
     public function SearchItems($key, $searchBy) {
-        
+        $keys = explode(',', $key);
         $sql = "SELECT * FROM " . $this->tblItem .
-                " WHERE " . $searchBy . " LIKE '%" . $key . "%'";
+                " WHERE ";
+                
+        $flag = true;
+        foreach ($keys as $value) {
+            if (!$flag)
+                $sql .= " OR ";
+            $sql .= $searchBy . " LIKE '%" . trim($value, " ") . "%'";
+            $flag = false;
+        }
         
         //execute the query
         $query = $this->dbConnection->query($sql);
@@ -110,6 +118,36 @@ class InventoryModel {
         if ($id >= 0){
             $sql = "INSERT INTO " . $this->db->getItemTable() . " VALUES (" . $id . ", '" . $price . "', '" . $name . "', '" . $description . "', '" . $iconId . "')";
 
+            //execute the query
+            $query = $this->dbConnection->query($sql);
+
+            return $query;
+        }else{
+            return false;
+        }
+        
+    }
+    
+    public function DeleteItem($id) {
+        
+        if ($id >= 0){
+            $sql = "DELETE FROM " . $this->db->getItemTable() . " WHERE id=" . $id . ";";
+            //execute the query
+            $this->dbConnection->query("SET FOREIGN_KEY_CHECKS=0;");
+            $query = $this->dbConnection->query($sql);
+            $this->dbConnection->query("SET FOREIGN_KEY_CHECKS=1;");
+
+            return $query;
+        }else{
+            return false;
+        }
+        
+    }
+    
+    public function UpdateItem($id, $name, $price, $description, $iconId) {
+        
+        if ($id >= 0){
+            $sql = "UPDATE " . $this->db->getItemTable() . " SET price='" . $price . "', name='" . $name . "', description='" . $description . "', icon_id='" . $iconId . "' WHERE id=" . $id . ";";
             //execute the query
             $query = $this->dbConnection->query($sql);
 

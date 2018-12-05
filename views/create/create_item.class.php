@@ -8,7 +8,7 @@
 
 class CreateItem extends IndexView {
     
-    public function display($errorMsg) {
+    public function display() {
         //display page header
         parent::displayHeader("");
         ?>    
@@ -21,7 +21,7 @@ class CreateItem extends IndexView {
                     <div class="card">
                         <div class="card-body">
                             
-                            <form method="post" action="createItem">
+                            <form method="get" action="createItem">
                                 <div class="form-group">
                                   <label for="name">Name:</label>
                                   <input type="text" name="name" class="form-control" id="name">
@@ -51,7 +51,7 @@ class CreateItem extends IndexView {
 
         <?php
         //display page footer
-        parent::displayFooter($errorMsg);
+        parent::displayFooter();
     }
 
 }

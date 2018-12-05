@@ -21,7 +21,7 @@ class LoginView extends IndexView {
                     <div class="card">
                         <div class="card-body">
                             
-                            <form method="post" action="verifyUser">
+                            <form method="get" action="verifyUser">
                                 <div class="form-group">
                                   <label for="username">Username:</label>
                                   <input type="text" name="username" class="form-control" id="username">

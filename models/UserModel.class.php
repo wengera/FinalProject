@@ -116,23 +116,24 @@ class UserModel {
         
         $user = $query->fetch_assoc();
         
-        if (!password_verify($password , $user['password'])){
+        if (password_verify($password, $user['password'])){
             
             $user = new User((array)$user);
             
             if ($user){
-                //$cookie_name = "user";
-                //$cookie_value = $user->GetUsername();
+                $cookie_name = "user";
+                $cookie_value = $user->GetUsername();
+                setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+                
                 session_start();
                 $_SESSION['user'] = $user->GetUsername();
                 $_SESSION['time'] = time() + (86400 * 30);
 
-                //setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+                
             }
             
             return true;
         }else{
-            echo "failed to verify user";
             return false;
         }
     }
@@ -148,8 +149,7 @@ class UserModel {
         $id = $this->generateId();
         $password = password_hash($password , PASSWORD_DEFAULT);
         if ($id >= 0){
-            $sql = "INSERT INTO " . $this->db->getUserTable() . " VALUES (" . $id . ", '" . $username . "', '" . $password . "', '" . $firstName . "', '" . $lastName . "', '" . $phone . "', '" . $inventory . "')";
-
+            $sql = "INSERT INTO " . $this->db->getUserTable() . " VALUES (" . $id . ", '" . $username . "', '" . $password . "', '" . $firstName . "', '" . $lastName . "', '" . $phone . "', '" . $inventory . "', '" . 25 . "', '" . 1378 . "')";
             //execute the query
             $query = $this->dbConnection->query($sql);
 

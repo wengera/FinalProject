@@ -24,6 +24,7 @@ class ApplicationController {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
+        
         if(isset($_SESSION['user'])){
             $user = $this->userModel->GetUser($_SESSION['user']);
             $user->LoadInventory();
@@ -47,17 +48,17 @@ class ApplicationController {
 
             $results = array();
 
-            if(isset($_POST['searchValue'])){
+            if(isset($_GET['searchValue'])){
                 $searchBy = "name";
-                if (isset($_POST['optradio']))
-                    $searchBy = strtolower($_POST['optradio']);
+                if (isset($_GET['optradio']))
+                    $searchBy = strtolower($_GET['optradio']);
 
-                $results = $this->inventoryModel->SearchItems($_POST['searchValue'], $searchBy);
+                $results = $this->inventoryModel->SearchItems($_GET['searchValue'], $searchBy);
+                
+                $view->display($results);
                 
                 if ($results == null)
-                    $view->display($results, "Items not found");
-                else
-                    $view->display($results, null);
+                    $view->serverMessage("Items not found");
             }else
                 $view->display($results, null);
             
@@ -72,7 +73,7 @@ class ApplicationController {
         }
         if(isset($_SESSION['user']) && $_SESSION['user'] == "admin"){
             $view = new CreateItem();
-            $view->display(null);
+            $view->display();
         }else{
             $this->login();
         }
@@ -83,20 +84,81 @@ class ApplicationController {
             session_start();
         }
         if(isset($_SESSION['user'])){
-            if(isset($_POST['name']) && !empty($_POST["name"]) && isset($_POST['price']) && !empty($_POST["price"]) && isset($_POST['description']) && !empty($_POST["description"]) && isset($_POST['iconId']) && !empty($_POST["iconId"])){
-                 if ($this->inventoryModel->CreateItem($_POST['name'], $_POST['price'], $_POST['description'], $_POST['iconId'])){
-                    $view = new CreateItem();
-                    $view->display(null);
-                 }else{
-                    $view = new CreateItem();
-                    $view->display("Unable to create item.");
-                }
+            if(isset($_GET['name']) && !empty($_GET["name"]) && isset($_GET['price']) && !empty($_GET["price"]) && isset($_GET['description']) && !empty($_GET["description"]) && isset($_GET['iconId']) && !empty($_GET["iconId"])){
+                $status = $this->inventoryModel->CreateItem($_GET['name'], $_GET['price'], $_GET['description'], $_GET['iconId']);
+                $view = new SearchIndex();
+                $view->display(array());
+                 if (!$status)
+                    $view->serverMessage("Unable to create item.");
+                 else
+                    $view->serverMessage("Successfully created item.");
             }else{
                 $view = new CreateItem();
-                $view->display("Missing form data.");
+                $view->display(array());
+                $view->serverMessage("Missing form data.");
             }
         }else{
             $this->login();
+        }
+    }
+    
+    public function getItemDetails(){
+        
+        if(isset($_GET['id'])){
+            $item = $this->inventoryModel->GetItem($_GET['id']);
+            echo $item->ToJson();
+        }else{
+            echo "{}";
+        }
+    }
+    
+    public function deleteItem(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(isset($_SESSION['user']) && $_SESSION['user'] == "admin"){
+            if(isset($_GET['id']) && !empty($_GET["id"])){
+                $status = $this->inventoryModel->DeleteItem($_GET['id']);
+                $view = new SearchIndex();
+                $view->display(array());
+                 if (!$status)
+                    $view->serverMessage("Unable to delete item.");
+                 else
+                    $view->serverMessage("Item successfully deleted.");
+            }else{
+                $view = new DetailsView();
+                $view->display($this->inventoryModel->GetItem($_GET['id']));
+                $view->serverMessage("Unable to delete item.");
+            }
+        }else{
+            $view = new DetailsView();
+            $view->display($this->inventoryModel->GetItem($_GET['id']));
+            $view->serverMessage("Must be an administrator to edit items.");
+        }
+    }
+    
+    public function updateItem(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(isset($_SESSION['user']) && $_SESSION['user'] == "admin"){
+            if(isset($_GET['id']) && !empty($_GET["id"]) && isset($_GET['name']) && !empty($_GET["name"]) && isset($_GET['price']) && !empty($_GET["price"]) && isset($_GET['description']) && !empty($_GET["description"]) && isset($_GET['iconId']) && !empty($_GET["iconId"])){
+                $status = $this->inventoryModel->UpdateItem($_GET['id'], $_GET['name'], $_GET['price'], $_GET['description'], $_GET['iconId']);
+                $view = new DetailsView();
+                $view->display($this->inventoryModel->GetItem($_GET['id']));
+                 if (!$status)
+                    $view->serverMessage("Unable to update item.");
+                 else
+                    $view->serverMessage("Item Successfully updated.");
+            }else{
+                $view = new CreateItem();
+                $view->display();
+                $view->serverMessage("Missing form data.");
+            }
+        }else{
+            $view = new DetailsView();
+            $view->display($this->inventoryModel->GetItem($_GET['id']));
+            $view->serverMessage("Must be an administrator to edit items.");
         }
     }
     
@@ -112,13 +174,19 @@ class ApplicationController {
     }
     
     public function verifyUser(){
-        if(isset($_POST['username']) && isset($_POST['password'])){
-             if ($this->userModel->VerifyUser($_POST['username'], $_POST['password']))
+        if(isset($_GET['username']) && !empty($_GET['username']) && isset($_GET['password']) && !empty($_GET['password'])){
+             if ($this->userModel->VerifyUser($_GET['username'], $_GET['password']))
                 $this->index();
-            else
-                $this->error("Login Failed");           
-        }else
-            $this->error("Login Failed");
+            else{
+                $view = new LoginView();
+                $view->display(null);
+                $view->serverMessage("Login failed.");
+            }
+        }else{
+            $view = new LoginView();
+            $view->display(null);
+            $view->serverMessage("Missing Form Data.");
+        }
     }
 
     //show details of a book
@@ -131,9 +199,9 @@ class ApplicationController {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        if(isset($_POST["itemId"])) {
+        if(isset($_GET["itemId"])) {
             $view = new DetailsView();
-            $view->display($this->inventoryModel->GetItem($_POST['itemId']));
+            $view->display($this->inventoryModel->GetItem($_GET['itemId']));
         }else{
             $view = new LoginView();
             $view->display();

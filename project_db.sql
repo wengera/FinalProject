@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2018 at 04:39 PM
+-- Generation Time: Dec 05, 2018 at 11:21 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.8
 
@@ -76,15 +76,14 @@ CREATE TABLE `item` (
 
 INSERT INTO `item` (`id`, `price`, `name`, `description`, `icon_id`) VALUES
 (0, 0, 'Steel Shortsword', 'A sword made from steel.', 0),
-(1, 2, 'Meat', 'It\'s meat.', 1),
+(1, 2, 'Meat', 'Its meat.', 1),
 (2, 1, 'Water', 'It\'s water.', 2),
 (3, 10, 'Iron Ingot', 'An ingot of iron.', 3),
 (4, 100, 'Leather Vest', 'Tight worn vest made of leather.', 4),
 (5, 5, 'Boots', 'Enchanted leather boots. Makes you run faster.', 5),
 (6, 12, 'Bow', 'Standard Hunting Bow', 6),
-(7, 20, 'Necromancy: Summon Undead', 'Teaches the player how to cast the spell: Summon Undead', 7),
-(8, 30, 'Huntsman\'s Axe', 'Huntsman\'s axe used for felling trees.', 8),
-(10, 14, 'Gloves', 'These are gloves', 5);
+(7, 204, 'Necromancy: Summon Undead', 'Teaches the player how to cast the spell: Summon Undead', 7),
+(8, 300, 'Huntsman Axe', 'Huntsman axe used for felling trees.', 8);
 
 -- --------------------------------------------------------
 
@@ -95,7 +94,7 @@ INSERT INTO `item` (`id`, `price`, `name`, `description`, `icon_id`) VALUES
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `username` varchar(30) NOT NULL,
-  `password` varchar(30) NOT NULL,
+  `password` varchar(250) NOT NULL,
   `firstName` varchar(30) NOT NULL,
   `lastName` varchar(30) NOT NULL,
   `phone` int(11) NOT NULL,
@@ -111,12 +110,11 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `username`, `password`, `firstName`, `lastName`, `phone`, `inventory`, `level`, `coins`) VALUES
 (1, 'awenger', 'password01', 'Alex', 'Wenger', 3308004, '{[{\"1\": \"5\"}, {\"2\": \"6\"}]}', 0, 0),
 (2, 'jchan', '01010101', 'Johnny', 'Chan', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}]}', 0, 0),
-(4, 'flexluther', 'isthatbad?', 'Todd', 'Marshal', 1234567, '{[]}', 0, 0),
-(5, 'OsamaBinLaggin', 'ohitslit', 'Michael', 'Michaelson', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}]}', 0, 0),
-(7, 'wengera', '$2y$10$3BQmmrp7ByWob0zskA2DTup', 'Alex', 'Wenger', 2147483647, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}, {\"4\": 3}]}', 40, 560),
-(19, 'vendor', '\"\"', 'John', 'Destroyer of Worlds', 6666666, '{\r\n	\"inventory\": [{\r\n		\"0\": 30\r\n	}, {\r\n		\"1\": 30\r\n	}, {\r\n		\"2\": 30\r\n	}, {\r\n		\"3\": 30\r\n	}, {\r\n		\"4\": 30\r\n	}, {\r\n		\"5\": 30\r\n	}, {\r\n		\"6\": 30\r\n	}, {\r\n		\"7\": 30\r\n	}, {\r\n		\"8\": 30\r\n	}]\r\n}', 0, 3979),
-(20, 'wengera2', 'test', 'Alex', 'Wenger', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}]}', 0, 0),
-(21, 'admin', 'admin', 'Kevin', 'June', 1234567, '{\r\n	\"inventory\": [{\r\n		\"0\": 30\r\n	}, {\r\n		\"1\": 30\r\n	}, {\r\n		\"2\": 30\r\n	}, {\r\n		\"3\": 30\r\n	}, {\r\n		\"4\": 30\r\n	}, {\r\n		\"5\": 30\r\n	}, {\r\n		\"6\": 30\r\n	}, {\r\n		\"7\": 30\r\n	}, {\r\n		\"8\": 30\r\n	}]\r\n}', 99, 9999);
+(3, 'flexluther', 'isthatbad?', 'Todd', 'Marshal', 1234567, '{[]}', 0, 0),
+(4, 'vendor', '\"\"', 'John', 'Destroyer of Worlds', 6666666, '{\r\n	\"inventory\": [{\r\n		\"0\": 30\r\n	}, {\r\n		\"1\": 30\r\n	}, {\r\n		\"2\": 30\r\n	}, {\r\n		\"3\": 30\r\n	}, {\r\n		\"4\": 30\r\n	}, {\r\n		\"5\": 30\r\n	}, {\r\n		\"6\": 30\r\n	}, {\r\n		\"7\": 30\r\n	}, {\r\n		\"8\": 30\r\n	}]\r\n}', 0, 3979),
+(5, 'admin', '$2y$10$pMWQuLZmdc6vTLXwEcCq5.zC3C5kiaTrItkmu/a7w0OmA3vAni09q', 'Kevin', 'June', 3308004, '{\n	\"inventory\": [{\n		\"0\": 30\n	}, {\n		\"1\": 30\n	}, {\n		\"2\": 30\n	}, {\n		\"3\": 30\n	}, {\n		\"4\": 30\n	}, {\n		\"5\": 30\n	}, {\n		\"6\": 30\n	}, {\n		\"7\": 30\n	}, {\n		\"8\": 30\n	}]\n}', 25, 1378),
+(6, 'wengera', '$2y$10$eZGHG2eWLyxpGnQ3N8llUO3pUIOtLmJiH2OhguMV4bUQPepKnIsim', 'Alex', 'Wenger', 2147483647, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}, {\"4\": 3}]}', 25, 1378),
+(7, 'vendor', '$2y$10$SuJJ/q/mqH2F2qxmHTw5ZuExhqvQBsW0Pv9r8B6hAk7yeZzo4.gPO', 'John', 'Destroyer of Worlds', 6666666, '{\n	\"inventory\": [{\n		\"0\": 30\n	}, {\n		\"1\": 30\n	}, {\n		\"2\": 30\n	}, {\n		\"3\": 30\n	}, {\n		\"4\": 30\n	}, {\n		\"5\": 30\n	}, {\n		\"6\": 30\n	}, {\n		\"7\": 30\n	}, {\n		\"8\": 30\n	}]\n}', 25, 1378);
 
 --
 -- Indexes for dumped tables

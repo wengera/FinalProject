@@ -12,9 +12,10 @@ class SearchIndex extends IndexView {
         return $item->GetIcon();
     }
     
-    public function display($results, $snackbarMessage) {
+    public function display($results) {
         //display page header
         parent::displayHeader("");
+        parent::displayFloatingDetails();
         ?>    
 
          
@@ -33,9 +34,9 @@ class SearchIndex extends IndexView {
                                 $counter = 0;
                                 while ($counter < $size){?>
                                         <div class="card" id="itemCard"><div class="card-body" id="itemCardBody">
-                                                <form method="POST" action="details">
+                                                <form method="GET" action="details">
                                                     <input type="hidden" name="itemId" value="<?= $results[$counter]->GetId() ?>" />
-                                                    <input type="image" onmouseover="toggleFloatingDetails(true)" onmouseenter="updateDetailBox('<?= $results[$counter]->ToJson() ?> ')" onmouseleave="toggleFloatingDetails(false)" src="<?= $results[$counter]->GetIcon() ?>" id="itemIcon" alt="" />
+                                                    <input type="image" onmouseover="toggleFloatingDetails(true)" onmouseenter="getItemFloatingDetails('<?= $results[$counter]->getId() ?>')" onmouseleave="toggleFloatingDetails(false)" src="<?= $results[$counter]->GetIcon() ?>" id="itemIcon" alt="" />
                                                 </form>
                                             </div>
                                         </div>
@@ -49,7 +50,7 @@ class SearchIndex extends IndexView {
 
                         ?>
                     </section>
-                    <form method="post" action="search">
+                    <form method="GET" action="search">
                         
                         <div class="form-group">
                             <label style="color: white;" for="searchUser">Search:</label> <br />
@@ -78,7 +79,7 @@ class SearchIndex extends IndexView {
 
         <?php
         //display page footer
-        parent::displayFooter($snackbarMessage);
+        parent::displayFooter();
     }
 
 }
