@@ -32,7 +32,7 @@ class HomeIndex extends IndexView {
                            
                         </div>
                         <div class="col-lg-5">
-                             <h2 style="color:white;margin-top: 20px;"> <?= $user->GetCoins() ?> <i class="fa fa-ils" aria-hidden="true"></i></h1>
+                             <h2 id="userCoins" style="color:white;margin-top: 20px;"><?= $user->GetCoins() ?></h1>
                         </div>
                         <div class="col-lg-5">
                             
@@ -87,7 +87,7 @@ class HomeIndex extends IndexView {
                                                 <div class="card" id="itemCard"><div class="card-body" id="itemCardBody">
                                                         <form method="get" action="details">
                                                             <input type="hidden" name="itemId" value="<?= $user->GetItem($counter)->GetId() ?>" />
-                                                            <input type="image" onmouseover="toggleFloatingDetails(true)" onmouseenter="getItemFloatingDetails('<?= $user->GetItem($counter)->getId() ?> ')" onmouseleave="toggleFloatingDetails(false)" src="<?= self::getIcon($user, $counter) ?>" id="itemIcon" alt="" />
+                                                            <input type="image" onmouseover="toggleFloatingDetails(true)" onmouseenter="getItemFloatingDetails('<?= $user->GetItem($counter)->getId() ?>', true)" onmouseleave="toggleFloatingDetails(false)" src="<?= self::getIcon($user, $counter) ?>" id="itemIcon" alt="" />
                                                         </form>
                                                     </div>
                                                 </div>
@@ -133,10 +133,8 @@ class HomeIndex extends IndexView {
                                             $counter = 0;
                                             while ($counter < $size){?>
                                                     <div class="card" id="itemCard"><div class="card-body" id="itemCardBody">
-                                                            <form method="get" action="details">
-                                                                <input type="hidden" name="itemId" value="<?= $vendor->GetItem($counter)->GetId() ?>" />
-                                                                <input type="image" onmouseover="toggleFloatingDetails(true)" onmouseenter="getItemFloatingDetails('<?= $vendor->GetItem($counter)->getId() ?> ')" onmouseleave="toggleFloatingDetails(false)" src="<?= self::getIcon($vendor, $counter) ?>" id="itemIcon" alt="" />
-                                                            </form>
+                                                                <input type="hidden" id="itemIdHidden<?= $vendor->GetItem($counter)->GetId() ?>" name="itemId" value="<?= $vendor->GetItem($counter)->GetId() ?>" />
+                                                                <input type="image" onclick="selectItem(<?= $vendor->GetItem($counter)->GetId() ?>)" onmouseover="toggleFloatingDetails(true)" onmouseenter="getItemFloatingDetails('<?= $vendor->GetItem($counter)->getId() ?>', false)" onmouseleave="toggleFloatingDetails(false)" src="<?= self::getIcon($vendor, $counter) ?>" id="itemIcon" alt="" />
                                                         </div>
                                                     </div>
                                                <?php
@@ -152,9 +150,36 @@ class HomeIndex extends IndexView {
                             </div>
                         </div>
                     </div>
+                    <button type="submit" onclick="buyItems()" class="btn btn-primary">Buy</button>
                 </div>
             </div>
         </div>
+        <script>
+            function selectItem(id){
+                console.log("itemIdHidden" + id);
+                console.log("Test: " + document.getElementById("itemIdHidden" + id).parentNode.childNodes[3].id);
+                var image = document.getElementById("itemIdHidden" + id).parentNode.parentNode;
+                image.classList.toggle("itemSelected");
+            }
+            
+            function buyItems(){
+                var items = document.getElementsByClassName("itemSelected");
+                var length = items.length;
+                var x = 0;
+                console.log("Length: " + length);
+                var idList = [];
+                while (x < length){
+                    console.log(items[x].firstChild.children[0].id);
+                    var id = items[x].firstChild.children[0].value;
+                    console.log("Item id: " + id);
+                    idList[x] = id;
+                    x += 1;
+                }
+                TryPurchase(idList);
+                location.reload();
+            }
+        </script>
+            
 <?php
     
     

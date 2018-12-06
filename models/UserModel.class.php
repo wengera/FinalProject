@@ -53,8 +53,14 @@ class UserModel {
         $sql = "SELECT id, username, firstName, lastName, phone, inventory, level, coins FROM " . $this->tblUser .
                 " WHERE username = 'vendor'";
         
-        //execute the query
-        $query = $this->dbConnection->query($sql);
+        try{
+            //execute the query
+            $query = $this->dbConnection->query($sql);
+        }catch(DatabaseException $e){
+           return false;
+        }catch(Exception $e){
+            return false;
+        }
 
         // if the query failed, return false. 
         if (!$query)
@@ -82,8 +88,14 @@ class UserModel {
         $sql = "SELECT id, username, password, firstName, lastName, phone, inventory, level, coins FROM " . $this->tblUser .
                 " WHERE username = '" . $username . "'";
         
-        //execute the query
-        $query = $this->dbConnection->query($sql);
+        try{
+            //execute the query
+            $query = $this->dbConnection->query($sql);
+        }catch(DatabaseException $e){
+           return false;
+        }catch(Exception $e){
+            return false;
+        }
 
         // if the query failed, return false. 
         if (!$query)
@@ -103,9 +115,16 @@ class UserModel {
         $sql = "SELECT id, username, password, firstName, lastName, phone, inventory, level, coins FROM " . $this->tblUser .
                 " WHERE username = '" . $username . "'";
         
-        //execute the query
-        $query = $this->dbConnection->query($sql);
+        try{
+            //execute the query
+            $query = $this->dbConnection->query($sql);
+        }catch(DatabaseException $e){
+           return false;
+        }catch(Exception $e){
+            return false;
+        }
 
+        
         // if the query failed, return false. 
         if (!$query)
             return false;
@@ -144,17 +163,39 @@ class UserModel {
         $this->_user->GetInventory();
     }
     
-    public function AddUser($username, $password, $firstName, $lastName, $phone, $inventory) {
-        //SQL select statement
-        $id = $this->generateId();
-        $password = password_hash($password , PASSWORD_DEFAULT);
+    public function UpdateBank($id, $balance){        
         if ($id >= 0){
-            $sql = "INSERT INTO " . $this->db->getUserTable() . " VALUES (" . $id . ", '" . $username . "', '" . $password . "', '" . $firstName . "', '" . $lastName . "', '" . $phone . "', '" . $inventory . "', '" . 25 . "', '" . 1378 . "')";
+            $sql = "UPDATE " . $this->db->getUserTable() . " SET coins='" . $balance . "' WHERE id=" . $id . ";";
+
             //execute the query
             $query = $this->dbConnection->query($sql);
 
             return $query;
         }else{
+            return false;
+        }
+    }
+    
+    public function AddUser($username, $password, $firstName, $lastName, $phone, $inventory) {
+        //SQL select statement
+        try{
+            $id = $this->generateId();
+            $password = password_hash($password , PASSWORD_DEFAULT);
+            if ($id >= 0){
+                $sql = "INSERT INTO " . $this->db->getUserTable() . " VALUES (" . $id . ", '" . $username . "', '" . $password . "', '" . $firstName . "', '" . $lastName . "', '" . $phone . "', '" . $inventory . "', '" . 25 . "', '" . 1378 . "')";
+
+
+                    //execute the query
+                    $query = $this->dbConnection->query($sql);
+
+
+                return $query;
+            }else{
+                return false;
+            }
+        }catch(DatabaseException $e){
+            return false;
+        }catch(Exception $e){
             return false;
         }
         
@@ -164,7 +205,13 @@ class UserModel {
         $sql = "SELECT id";
         $sql .= " FROM " . $this->db->getUserTable();
         
-        $query = $this->dbConnection->query($sql);
+        try{
+            $query = $this->dbConnection->query($sql);
+        }catch(DatabaseException $e){
+           return false;
+        }catch(Exception $e){
+            return false;
+        }
         
         if ($query){
             return $query->num_rows + 1;

@@ -64,6 +64,7 @@ class IndexView {
                   <h4 class="card-title" id="name" style="color:white;"> item</h4>
                   <p class="card-text" id="price" style="color:white;"><b>Price:</b> price</p>
                   <p class="card-text" id="description" style="color:white;"><b>Description:</b> description </p>
+                  <p class="card-text" id="count" style="color:white;"><b>Count:</b> count </p>
                 </div>
             </div>
         </div>
@@ -179,6 +180,10 @@ class IndexView {
                         100%{
                             border-width: 2px;
                         }
+                    }
+                    .itemSelected{
+                        border-color: #5194ff !important;
+                        border-width: 4px !important;
                     }
                     
                     #itemCard:hover { 
@@ -306,14 +311,17 @@ class IndexView {
                     //updateDetailBox(GetItemJson("0"));
                 }
                 
-                function getItemFloatingDetails(id){
-                    GetItemJson(id);
+                function getItemFloatingDetails(id, user){
+                    console.log("User: " + user);
+                    GetItemJson(id, user);
                 }
+                
                 
                 function updateDetailBox(json){
                     $( "#floatingDetails" ).find( "#name" )[0].innerHTML = json["name"];
                     $( "#floatingDetails" ).find( "#price" )[0].innerHTML = "<b>Price:</b> " + json["price"]
                     $( "#floatingDetails" ).find( "#description" )[0].innerHTML = "<b>Description:</b> " + json["description"];
+                    $( "#floatingDetails" ).find( "#count" )[0].innerHTML = "<b>Count:</b> " + json["count"];
                 }
 
                 

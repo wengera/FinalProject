@@ -85,13 +85,27 @@ class ApplicationController {
         }
         if(isset($_SESSION['user'])){
             if(isset($_GET['name']) && !empty($_GET["name"]) && isset($_GET['price']) && !empty($_GET["price"]) && isset($_GET['description']) && !empty($_GET["description"]) && isset($_GET['iconId']) && !empty($_GET["iconId"])){
-                $status = $this->inventoryModel->CreateItem($_GET['name'], $_GET['price'], $_GET['description'], $_GET['iconId']);
-                $view = new SearchIndex();
-                $view->display(array());
-                 if (!$status)
-                    $view->serverMessage("Unable to create item.");
-                 else
-                    $view->serverMessage("Successfully created item.");
+                try{
+                    $status = $this->inventoryModel->CreateItem($_GET['name'], $_GET['price'], $_GET['description'], $_GET['iconId']);
+                    $view = new SearchIndex();
+                    $view->display(array());
+                     if (!$status)
+                        $view->serverMessage("Unable to create item.");
+                     else
+                        $view->serverMessage("Successfully created item.");
+                }catch(DataTypeException $e){
+                    $view = new CreateItem();
+                    $view->display(array());
+                    $view->serverMessage("Invalid Data Type.");
+                }catch(DatabaseException $e){
+                   $view = new CreateItem();
+                    $view->display(array());
+                    $view->serverMessage("Unable to connect to database.");
+                } catch(Exception $e){
+                    $view = new CreateItem();
+                    $view->display(array());
+                    $view->serverMessage("Error trying to add item.");
+                }
             }else{
                 $view = new CreateItem();
                 $view->display(array());
@@ -105,10 +119,32 @@ class ApplicationController {
     public function getItemDetails(){
         
         if(isset($_GET['id'])){
-            $item = $this->inventoryModel->GetItem($_GET['id']);
+            $item = $this->inventoryModel->GetItem($_GET['id'], $_GET['userFlag']);
             echo $item->ToJson();
         }else{
             echo "{}";
+        }
+    }
+    
+    public function addItem(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(isset($_GET['id'])){
+            $user = $this->userModel->GetUser($_SESSION['user']);
+            $user->AddItem($_GET['id']);
+        }
+        
+    }
+    
+    public function updateBank(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if(isset($_SESSION['user']) && isset($_GET['balance'])){
+            $user = $this->userModel->GetUser($_SESSION['user']);
+            $this->userModel->UpdateBank($user->GetId(), $_GET['balance']);
         }
     }
     
@@ -143,16 +179,30 @@ class ApplicationController {
         }
         if(isset($_SESSION['user']) && $_SESSION['user'] == "admin"){
             if(isset($_GET['id']) && !empty($_GET["id"]) && isset($_GET['name']) && !empty($_GET["name"]) && isset($_GET['price']) && !empty($_GET["price"]) && isset($_GET['description']) && !empty($_GET["description"]) && isset($_GET['iconId']) && !empty($_GET["iconId"])){
-                $status = $this->inventoryModel->UpdateItem($_GET['id'], $_GET['name'], $_GET['price'], $_GET['description'], $_GET['iconId']);
+                try{
+                    $status = $this->inventoryModel->UpdateItem($_GET['id'], $_GET['name'], $_GET['price'], $_GET['description'], $_GET['iconId']);
+                    $view = new DetailsView();
+                    $view->display($this->inventoryModel->GetItem($_GET['id']));
+                     if (!$status)
+                        $view->serverMessage("Unable to update item.");
+                     else
+                        $view->serverMessage("Item Successfully updated.");
+                }catch(DataTypeException $e){
+                    $view = new DetailsView();
+                    $view->display($this->inventoryModel->GetItem($_GET['id']));
+                    $view->serverMessage($e->getDetails());
+                }catch(DatabaseException $e){
+                   $view = new Index();
+                    $view->display();
+                    $view->serverMessage($e->getDetails());
+                } catch(Exception $e){
+                    $view = new DetailsView();
+                    $view->display($this->inventoryModel->GetItem($_GET['id']));
+                    $view->serverMessage($e->getDetails());
+                }
+            }else{
                 $view = new DetailsView();
                 $view->display($this->inventoryModel->GetItem($_GET['id']));
-                 if (!$status)
-                    $view->serverMessage("Unable to update item.");
-                 else
-                    $view->serverMessage("Item Successfully updated.");
-            }else{
-                $view = new CreateItem();
-                $view->display();
                 $view->serverMessage("Missing form data.");
             }
         }else{

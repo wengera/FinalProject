@@ -9,7 +9,7 @@
 class Item implements Serializable{
     
     //private properties of a Book object
-    private $id, $price, $name, $description, $icon_id, $icon, $count;
+    private $id, $price, $name, $description, $icon_id, $icon, $count = 0;
     
     //the constructor that initializes all properties
     public function __construct($data){
@@ -30,6 +30,9 @@ class Item implements Serializable{
     
     public function GetId(){
        return $this->id;
+    }
+    public function SetId($id){
+       $this->id = $id;
     }
     
     public function GetPrice(){
@@ -56,6 +59,14 @@ class Item implements Serializable{
         return $this->icon;
     }
     
+    public function GetCount(){
+        return $this->count;
+    }
+    
+    public function SetCount($count){
+        $this->count = $count;
+    }
+    
     public function ToJson(){
         $array = [];
         $array["id"] = $this->id;
@@ -63,6 +74,7 @@ class Item implements Serializable{
         $array["name"] = $this->name;
         $array["description"] = $this->description;
         $array["iconId"] = $this->icon_id;
+        $array["count"] = $this->count;
         return json_encode($array);
     }
     
