@@ -36,7 +36,7 @@ class SearchIndex extends IndexView {
                                         <div class="card" id="itemCard"><div class="card-body" id="itemCardBody">
                                                 <form method="GET" action="details">
                                                     <input type="hidden" name="itemId" value="<?= $results[$counter]->GetId() ?>" />
-                                                    <input type="image" onmouseover="toggleFloatingDetails(true)" onmouseenter="getItemFloatingDetails('<?= $results[$counter]->getId() ?>')" onmouseleave="toggleFloatingDetails(false)" src="<?= $results[$counter]->GetIcon() ?>" id="itemIcon" alt="" />
+                                                    <input type="image" onmouseover="toggleFloatingDetails(true)" onmouseenter="getItemFloatingDetailsBasic('<?= $results[$counter]->getId() ?>', true)" onmouseleave="toggleFloatingDetails(false)" src="<?= $results[$counter]->GetIcon() ?>" id="itemIcon" alt="" />
                                                 </form>
                                             </div>
                                         </div>

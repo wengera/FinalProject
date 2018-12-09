@@ -1,10 +1,10 @@
 <?php
 
 /*
- * Author: Alex Wenger
- * Date: 11/06/2018
+ * Author: Alex Wenger, Kevin June
+ * Date: 12/1/2018
  * File: UserModel.class.php
- * Description: the book model
+ * Description: the user model
  * 
  */
 
@@ -49,6 +49,7 @@ class UserModel {
         return self::$_instance;
     }
     
+    //Returns vendor user
     public function GetVendor(){
         $sql = "SELECT id, username, firstName, lastName, phone, inventory, level, coins FROM " . $this->tblUser .
                 " WHERE username = 'vendor'";
@@ -83,6 +84,43 @@ class UserModel {
         
     }
     
+    //returns admin user (function used only for very specific places)
+    public function GetAdmin(){
+        $sql = "SELECT id, username, firstName, lastName, phone, inventory, level, coins FROM " . $this->tblUser .
+                " WHERE username = 'admin'";
+        
+        try{
+            //execute the query
+            $query = $this->dbConnection->query($sql);
+        }catch(DatabaseException $e){
+           return false;
+        }catch(Exception $e){
+            return false;
+        }
+
+        // if the query failed, return false. 
+        if (!$query)
+            return false;
+        
+        //if the query succeeded, but no item was found.
+        if ($query->num_rows == 0)
+            return 0;
+        
+        //handle the result
+        //create an array to store all returned books
+        $user = null;
+
+        //loop through all rows in the returned recordsets
+        while ($obj = $query->fetch_object()) {
+            $user = new User((array)$obj);
+        }
+        
+        return $user;
+        
+    }
+    
+    
+    //Returns user based on provided username
     public function GetUser($username) {
         
         $sql = "SELECT id, username, password, firstName, lastName, phone, inventory, level, coins FROM " . $this->tblUser .
@@ -110,6 +148,7 @@ class UserModel {
         return new User((array)$user);
     }
 
+    //Verifies a user (login)
     public function VerifyUser($username, $password) {
         
         $sql = "SELECT id, username, password, firstName, lastName, phone, inventory, level, coins FROM " . $this->tblUser .
@@ -163,6 +202,7 @@ class UserModel {
         $this->_user->GetInventory();
     }
     
+    //Updates the user's balance
     public function UpdateBank($id, $balance){        
         if ($id >= 0){
             $sql = "UPDATE " . $this->db->getUserTable() . " SET coins='" . $balance . "' WHERE id=" . $id . ";";
@@ -176,34 +216,47 @@ class UserModel {
         }
     }
     
+    //Creates a new user
     public function AddUser($username, $password, $firstName, $lastName, $phone, $inventory) {
-        //SQL select statement
-        try{
-            $id = $this->generateId();
-            $password = password_hash($password , PASSWORD_DEFAULT);
-            if ($id >= 0){
-                $sql = "INSERT INTO " . $this->db->getUserTable() . " VALUES (" . $id . ", '" . $username . "', '" . $password . "', '" . $firstName . "', '" . $lastName . "', '" . $phone . "', '" . $inventory . "', '" . 25 . "', '" . 1378 . "')";
+            
+        if (!is_numeric($phone))
+            throw new DataTypeException();
+        
+        if (strlen("" . $phone) < 7)
+            throw new DataLengthException();
+        
+        if (!$this->UserExists($username)){
+            try{
+                $id = $this->generateId();
+                $password = password_hash($password , PASSWORD_DEFAULT);
+                if ($id >= 0){
+                    $sql = "INSERT INTO " . $this->db->getUserTable() . " VALUES (" . $id . ", '" . $username . "', '" . $password . "', '" . $firstName . "', '" . $lastName . "', '" . $phone . "', '" . $inventory . "', '" . 1 . "', '" . 1500 . "')";
 
 
-                    //execute the query
-                    $query = $this->dbConnection->query($sql);
+                        //execute the query
+                        $query = $this->dbConnection->query($sql);
 
 
-                return $query;
-            }else{
+                    return $query;
+                }else{
+                    return false;
+                }
+            }catch(DatabaseException $e){
+                return false;
+            }catch(Exception $e){
                 return false;
             }
-        }catch(DatabaseException $e){
-            return false;
-        }catch(Exception $e){
+        }else{
             return false;
         }
         
+        
     }
     
-    public function GenerateId(){
-        $sql = "SELECT id";
-        $sql .= " FROM " . $this->db->getUserTable();
+    //Checks to see if a user exists
+    public function UserExists($username){
+        $sql = "SELECT username";
+        $sql .= " FROM " . $this->db->getUserTable() . " WHERE username='" . $username. "';";
         
         try{
             $query = $this->dbConnection->query($sql);
@@ -212,12 +265,33 @@ class UserModel {
         }catch(Exception $e){
             return false;
         }
-        
-        if ($query){
-            return $query->num_rows + 1;
+
+        if ($query->num_rows > 0){
+            return true;
         }else{
-            return -1;
+            return false;
         }
+    }
+    
+    
+    //Generates a valid user id to be used to insert a new user into the table
+    public function GenerateId($last=0){
+            $sql = "SELECT id";
+            $sql .= " FROM " . $this->db->getUserTable() . " WHERE id=" . $last;
+            
+            try{
+                $query = $this->dbConnection->query($sql);
+            }catch(DatabaseException $e){
+               return false;
+            }catch(Exception $e){
+                return false;
+            }
+            
+            if ($query->num_rows > 0){
+                return $this->GenerateId($last + 1);
+            }else{
+                return $last;
+            }
     }
 
 }

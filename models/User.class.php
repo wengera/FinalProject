@@ -1,6 +1,6 @@
 <?php
 /*
- * Author: Alex Wenger
+ * Author: Alex Wenger, Kevin June
  * Date: 11/13/2018
  * Name: User.class.php
  * Description: the User class models a real-world user.
@@ -52,6 +52,12 @@ class User{
        return $this->level;
     }
     
+    //Sets the inventory
+    public function SetInventory($inv){
+        $this->inventory = $inv;
+    }
+    
+    //Returns inventory
     public function GetInventory(){
         if (!$this->inventoryLoaded)
             return $this->LoadInventory($this->inventory);
@@ -59,6 +65,7 @@ class User{
             return $this->inventory;
     }
     
+    //Returns an item object from the user's inventory based on the index
     public function GetItem($index){
         if ($index < sizeof($this->inventory))
             return $this->inventory[$index];
@@ -66,6 +73,7 @@ class User{
             return "";
     }
     
+    //returns an item fro mthe user's inventory based on its id
     public function GetItemById($id){
         $length =sizeof($this->inventory);
         foreach($this->inventory as $item){
@@ -76,6 +84,7 @@ class User{
         return null;
     }
     
+    //returns the index of an item in the user's inventory
     public function GetItemIndex($id){
         $length =sizeof($this->inventory);
         $counter = 0;
@@ -88,6 +97,7 @@ class User{
         return -1;
     }
     
+    //prints the user's inventory as a string (debugging)
     public function PrintInventory(){
         if ($this->inventoryLoaded){
             $str = "";
@@ -99,14 +109,16 @@ class User{
         }
     }
     
+    //Adds an item to the user's inventory and updates the database
     public function AddItem($id){
         $inv = $this->GetInventory();
         
         $inventoryModel = InventoryModel::GetInventoryModel();
         $index = $this->GetItemIndex($id);
         if ($index == -1){
-            $item = clone $inv[0];
-            $item->SetId($id);
+            $admin = UserModel::GetUserModel()->GetVendor();
+            $admin->LoadInventory();
+            $item = $admin->GetItemById($id);
             $item->SetCount(1);
             $inv[] = $item;
         }else{
@@ -123,6 +135,33 @@ class User{
         $inventoryModel->UpdateInventory($this->GetId(), $this->ToJson($inv));
     }
     
+    //removes an item from the player's inventory and updates the database
+    public function RemoveItem($id){
+        $inv = $this->GetInventory();
+        
+        $inventoryModel = InventoryModel::GetInventoryModel();
+        $index = $this->GetItemIndex($id);
+        if ($index >= 0){
+            $x = 0;
+            while ($x < count($inv)){
+                if ($inv[$x]->GetId() == $id){
+                    $inv[$x]->SetCount($inv[$x]->GetCount() - 1);
+                    if ($inv[$x]->GetCount() <= 0){
+                        unset($inv[$x]);
+                    }
+                    echo $this->ToJson($inv);
+                    break;
+                }
+                $x += 1;
+            }
+            
+            $inventoryModel->UpdateInventory($this->GetId(), $this->ToJson($inv));
+        }
+        
+        
+    }
+    
+    //returns a json string representation of the user's inventory
     public function ToJson($inv){
         $string = '{"inventory": [';
         $flag = true;
@@ -142,10 +181,14 @@ class User{
         //return json_encode($array);
     }
     
+    //Sets up the user's inventory from a json string to a list of items
     public function LoadInventory(){
         $inventoryArray = json_decode($this->inventory);
+        if ($inventoryArray == null){
+            $this->inventory = [];
+            return $this->inventory;
+        }
         $items = (array)$inventoryArray->inventory;
-        $item = (array)$inventoryArray->inventory[0];
         $itemKeys = array();
         
         foreach($items as $key => $val){
@@ -157,7 +200,6 @@ class User{
         $this->inventory = $inventoryModel->GetInventory($itemKeys, $items);
         
         if (!$this->inventory){
-            echo "Failed to load inventory";
             return null;
         }else{
             $this->inventoryLoaded = true;

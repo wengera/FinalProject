@@ -1,5 +1,5 @@
 /* Author: Alex  Wenger, Kevin June
- * Date: 11/29/2018
+ * Date: 12/2/2018
  * Name: main.js
  * Description: this is the javascript file for the application.
  */
@@ -8,7 +8,6 @@ var xmlHttp;  //xmlhttprequest object
 
 //create an XMLHttpRequest object when the web page loads
 window.onload = function () {
-    console.log("Main loaded");
     xmlHttp = createXmlHttpRequestObject(); 
 };
 
@@ -31,9 +30,7 @@ function createXmlHttpRequestObject()
 }
 
 /*
- * This function makes asynchronous HTTP request using the XMLHttpRequest object.
- * It passes a zip code to a server-side script for processing.
- * This function is invoked by the handlekeyup function when a keystroke is detected.
+Gets an item from a user's inventory
  */
 function GetItemJson(id, user)
 {
@@ -42,7 +39,6 @@ function GetItemJson(id, user)
     
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log("Response: " + request.responseText);
             var json = $.parseHTML(request.responseText)[6].textContent;
             json = json.trim();
             
@@ -56,10 +52,31 @@ function GetItemJson(id, user)
     
 }
 
+
+//Returns an item straight from the item table
+function GetItemJsonBasic(id)
+{
+	//add your code here to process ajax requests and handle server's responses
+    var request = createXmlHttpRequestObject();
+    
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var json = $.parseHTML(request.responseText)[6].textContent;
+            json = json.trim();
+            
+            updateDetailBox(JSON.parse(json));
+        }
+    };
+    
+    request.open("GET", "getItemDetailsBasic?id=" + id, false);
+    request.send(id);
+    
+    
+}
+
+//Returns total price of items in list
 function GetTotal(idList)
 {
-    
-    //add your code here to process ajax requests and handle server's responses
     var request = createXmlHttpRequestObject();
     
     var totalPrice = 0;
@@ -83,25 +100,59 @@ function GetTotal(idList)
         x += 1;
     }
     
-    console.log("Total Price: " + totalPrice);
     return totalPrice;
     
 }
 
+//Sells items in list
+function SellItems(idList){
+    var totalPrice = GetTotal(idList);
+    var userCoins = parseInt(document.getElementById("userCoins").innerHTML);
+    
+    var request = createXmlHttpRequestObject();
+
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+
+
+        }
+    };
+    
+    request.open("GET", "updateBank?balance=" + (userCoins + totalPrice), false);
+    request.send(idList[x]);
+
+    var length = idList.length;
+    var x = 0;
+    while (x < length){
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+
+
+            }
+        };
+
+        request.open("GET", "removeItem?id=" + idList[x], false);
+        request.send(idList[x]);
+        x += 1;
+    }
+    
+    snackbar("Purchase Successful");
+
+    setTimeout(function(){ location.reload(); }, 2000);
+}
+
+//Try to purchase items in list
 function TryPurchase(idList)
 {
     var totalPrice = GetTotal(idList);
-    console.log(document.getElementById("userCoins").innerHTML);
     var userCoins = parseInt(document.getElementById("userCoins").innerHTML);
-    console.log("User Coins: " + userCoins + " | " + "Total: " + totalPrice);
     if (totalPrice < userCoins){
-        //add your code here to process ajax requests and handle server's responses
+        
         var request = createXmlHttpRequestObject();
 
         request.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
 
-                console.log(request.responseText);
 
             }
         };
@@ -115,8 +166,7 @@ function TryPurchase(idList)
             request.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     
-                    console.log(request.responseText);
-
+                    
                 }
             };
 
@@ -124,6 +174,12 @@ function TryPurchase(idList)
             request.send(idList[x]);
             x += 1;
         }
+        snackbar("Purchase Successful");
+        
+        setTimeout(function(){ location.reload(); }, 2000);
+        
+    }else{
+        snackbar("Insufficient funds.");
     }
     
     

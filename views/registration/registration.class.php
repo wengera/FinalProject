@@ -1,12 +1,12 @@
 <?php
 /*
  * Author: Alex Wenger, Kevin June
- * Date: 11/9/2018
- * Name: create_item.class.php
- * Description: This class defines the method "createItem" that inserts a new item into the database
+ * Date: 12/8/2018
+ * Name: registration.class.php
+ * Description: This class defines the method "display" that displays the registration page.
  */
 
-class CreateItem extends IndexView {
+class RegisterView extends IndexView {
     
     public function display() {
         //display page header
@@ -21,22 +21,26 @@ class CreateItem extends IndexView {
                     <div class="card">
                         <div class="card-body">
                             
-                            <form method="get" action="createItem">
+                            <form method="get" action="addUser">
                                 <div class="form-group">
-                                  <label for="name">Name:</label>
-                                  <input type="text" name="name" class="form-control" id="name">
+                                  <label for="regUsername">Username:</label>
+                                  <input type="text" name="regUsername" class="form-control" id="regUsername">
                                 </div>
                                 <div class="form-group">
-                                  <label for="price">Price:</label>
-                                  <input type="text" name="price" class="form-control" id="price">
+                                  <label for="regPassword">Password:</label>
+                                  <input type="password" name="regPassword" class="form-control" id="regPassword">
                                 </div>
                                 <div class="form-group">
-                                  <label for="description">Description:</label>
-                                  <input type="text" name="description" class="form-control" id="description">
+                                  <label for="fname">First Name:</label>
+                                  <input type="text" name="fname" class="form-control" id="fname">
                                 </div>
                                 <div class="form-group">
-                                  <label for="iconId">Icon ID:</label>
-                                  <input type="text" name="iconId" class="form-control" id="iconId">
+                                  <label for="lname">Last Name:</label>
+                                  <input type="text" name="lname" class="form-control" id="lname">
+                                </div>
+                                <div class="form-group">
+                                  <label for="phone">Phone:</label>
+                                  <input type="text" name="phone" class="form-control" id="phone">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                               </form>

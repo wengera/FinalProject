@@ -1,7 +1,7 @@
 <?php
 /*
- * Author: Alex Wenger
- * Date: Mar 6, 2016//
+ * Author: Alex Wenger, Kevin June
+ * Date: 11/15/2018
  * Name: details.class.php
  * Description: This class defines the method "display" that displays the details page
  */

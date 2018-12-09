@@ -1,9 +1,9 @@
 <?php
 
 /*
- * Author: Alex Wenger
- * Date: 11/13/2018
- * File: database,class.php
+ * Author: Alex Wenger, Kevin June
+ * Date: 12/1/2018
+ * File: database.class.php
  * Description: Description: the Database class sets the database details.
  * 
  */

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Author: Alex Wenger
+ * Author: Alex Wenger, Kevin June
  * Date: 11/13/2018
  * File: InventoryModel.class.php
  * Description: the inventory model
@@ -93,7 +93,7 @@ class InventoryModel {
         }
     }
     
-    //Returns an item from the database based on a provided item id
+    //Returns a list of items depending on search terms
     public function SearchItems($key, $searchBy) {
         try{
             $keys = explode(',', $key);
@@ -136,6 +136,7 @@ class InventoryModel {
         }
     }
     
+    //Creates a new item in the item table
     public function CreateItem($name, $price, $description, $iconId) {
             if (!is_numeric($iconId))
                 throw new DataTypeException();
@@ -160,6 +161,7 @@ class InventoryModel {
         
     }
     
+    //Deletes an item from the item database
     public function DeleteItem($id) {
         try{
             if ($id >= 0){
@@ -182,6 +184,7 @@ class InventoryModel {
         }
     }
     
+    //updates the details of an item in the item database
     public function UpdateItem($id, $name, $price, $description, $iconId) {
         if (!is_numeric($iconId))
             throw new DataTypeException();
@@ -201,6 +204,7 @@ class InventoryModel {
         }
     }
     
+    //updates a user's inventory
     public function UpdateInventory($id, $inventory) {
         
         if ($id >= 0){
@@ -215,11 +219,9 @@ class InventoryModel {
         }
     }
     
+    //Gets Item based on User's inventory
     //Returns an item from the database based on a provided item id
     public function GetItem($key, $userFlag) {
-        //try{
-            //$sql = "SELECT * FROM " . $this->tblItem .
-              //      " WHERE id = " . $key;
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
@@ -229,37 +231,27 @@ class InventoryModel {
                 $user->LoadInventory();
                 return $user->GetItemById($key);
             }else{
-                $vendor = UserModel::GetUserModel()->GetVendor();
-                $vendor->LoadInventory();
-                return $vendor->GetItemById($key);
+                $user = UserModel::GetUserModel()->GetVendor();
+                $user->LoadInventory();
+                return $user->GetItemById($key);
             }
-            return $user->GetItemById($key);
-            //execute the query
-            /*$query = $this->dbConnection->query($sql);
-
-
-            // if the query failed, return false. 
-            if (!$query)
-                return false;
-
-            //if the query succeeded, but no item was found.
-            if ($query->num_rows == 0)
-                return 0;
-
-            $items = array();
-
-            //Retrieve the object
-            $obj = $query->fetch_object();
-            $item = new Item((array)$obj);
-
-            return $item;
-        }catch(DatabaseException $e){
-           return false;
-        } catch(Exception $e){
-            return false;
-        }*/
     }
     
+    
+    //Returns an item from the database based on a provided item id
+    public function GetItemBasic($key) {
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+            
+            $user = UserModel::GetUserModel()->GetAdmin();
+            $user->SetInventory($this->SearchItems("","name"));
+            $user->inventoryLoaded = true;
+            return $user->GetItemById($key);
+            
+    }
+    
+    //Generates a valid id to be used when inserting an item into the item table
     public function GenerateItemId(){
         try{
             $sql = "SELECT id";
@@ -281,6 +273,8 @@ class InventoryModel {
         }
     }
     
+    
+    //Returns an icon url
     public function GetIcon($iconId) {
         return "../" . ICON_IMAGE_URL . 'icon' . $iconId . '.png';
     }

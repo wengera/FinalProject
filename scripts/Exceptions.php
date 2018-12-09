@@ -8,9 +8,9 @@
 
 /**
  * Description of DataLengthException
- * Date: 12/06/2018
- * Name: Exceptions.class.php
- * Description: This class defines an exception for data length
+ * Author: Alex Wenger, Kevin June
+ * Date: 11/15/2018
+ * Name: Exceptions.php
  */
 
 class DatabaseException extends Exception {
@@ -22,6 +22,13 @@ class DatabaseException extends Exception {
 class DataTypeException extends Exception {
     function getDetails() {
         return "Invalid Data Type";
+    }
+
+}
+
+class DataLengthException extends Exception {
+    function getDetails() {
+        return "Phone number must be at least 7 numbers.";
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 /*
- * Author: Alex Wenger
- * Date: 11/13/2018
+ * Author: Alex Wenger, Kevin June
+ * Date: 12/5/2018
  * Name: Item.class.php
  * Description: the Item class models a digital-world item.
  */
@@ -13,11 +13,19 @@ class Item implements Serializable{
     
     //the constructor that initializes all properties
     public function __construct($data){
-        $this->id = $data["id"];
-        $this->price = $data["price"];
-        $this->name = $data["name"];
-        $this->description = $data["description"];
-        $this->icon_id = $data["icon_id"];
+        if ($data != null){
+            $this->id = $data["id"];
+            $this->price = $data["price"];
+            $this->name = $data["name"];
+            $this->description = $data["description"];
+            $this->icon_id = $data["icon_id"];
+        }else{
+            $this->id = -1;
+            $this->price = 0;
+            $this->name = "n/a";
+            $this->description = "n/a";
+            $this->icon_id = 0;
+        }
     }
     /*public function __construct($id, $price, $name, $description, $icon_id) {
         $this->id = $id;
@@ -67,6 +75,7 @@ class Item implements Serializable{
         $this->count = $count;
     }
     
+    //returns item as json string
     public function ToJson(){
         $array = [];
         $array["id"] = $this->id;
@@ -78,9 +87,12 @@ class Item implements Serializable{
         return json_encode($array);
     }
     
+    //i dont think this is used anymore
     public function serialize() {
         return serialize([$this->id, $this->price, $this->name, $this->description, $this->icon_id]);
     }
+    
+    //i dont think this is used anymore
     public function unserialize($data) {
         $this->id = $data["id"];
         $this->price = $data["price"];

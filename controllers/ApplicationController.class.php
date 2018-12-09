@@ -1,8 +1,8 @@
 <?php
 
 /*
- * Author: Alex Wenger
- * Date: 11/13/2018
+ * Author: Alex Wenger, Kevin June
+ * Date: 11/15/2018
  * File: ApplicationController.class.php
  * Description: the application controller
  *
@@ -19,7 +19,7 @@ class ApplicationController {
         $this->inventoryModel = InventoryModel::GetInventoryModel();
     }
 
-    //index action that displays all books
+    //index action that displays the shop and user inventory
     public function index() {  
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -38,7 +38,7 @@ class ApplicationController {
         
     }
     
-    //index action that displays all books
+    //search action that loads item data
     public function search() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -67,6 +67,7 @@ class ApplicationController {
         }
     }
     
+    //create item page
     public function create(){
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -79,6 +80,7 @@ class ApplicationController {
         }
     }
     
+    //action to create an item
     public function createItem(){
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -116,6 +118,7 @@ class ApplicationController {
         }
     }
     
+    //action to get the details of an item
     public function getItemDetails(){
         
         if(isset($_GET['id'])){
@@ -126,6 +129,18 @@ class ApplicationController {
         }
     }
     
+    //action to get the details of an item
+    public function getItemDetailsBasic(){
+        
+        if(isset($_GET['id'])){
+            $item = $this->inventoryModel->GetItemBasic($_GET['id']);
+            echo $item->ToJson();
+        }else{
+            echo "{}";
+        }
+    }
+    
+    //action to add an item to the database
     public function addItem(){
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -137,6 +152,19 @@ class ApplicationController {
         
     }
     
+    //action to remove an item from the databse
+    public function removeItem(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(isset($_GET['id'])){
+            $user = $this->userModel->GetUser($_SESSION['user']);
+            $user->RemoveItem($_GET['id']);
+        }
+        
+    }
+    
+    //action to update the bank balance of the user
     public function updateBank(){
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -146,8 +174,11 @@ class ApplicationController {
             $user = $this->userModel->GetUser($_SESSION['user']);
             $this->userModel->UpdateBank($user->GetId(), $_GET['balance']);
         }
+        
+        
     }
     
+    //action to delete an item from the item library
     public function deleteItem(){
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -163,16 +194,17 @@ class ApplicationController {
                     $view->serverMessage("Item successfully deleted.");
             }else{
                 $view = new DetailsView();
-                $view->display($this->inventoryModel->GetItem($_GET['id']));
+                $view->display($this->inventoryModel->GetItem($_GET['id'], false));
                 $view->serverMessage("Unable to delete item.");
             }
         }else{
             $view = new DetailsView();
-            $view->display($this->inventoryModel->GetItem($_GET['id']));
+            $view->display($this->inventoryModel->GetItem($_GET['id'], false));
             $view->serverMessage("Must be an administrator to edit items.");
         }
     }
     
+    //action to update the details of an item in the item library
     public function updateItem(){
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -182,14 +214,14 @@ class ApplicationController {
                 try{
                     $status = $this->inventoryModel->UpdateItem($_GET['id'], $_GET['name'], $_GET['price'], $_GET['description'], $_GET['iconId']);
                     $view = new DetailsView();
-                    $view->display($this->inventoryModel->GetItem($_GET['id']));
+                    $view->display($this->inventoryModel->GetItemBasic($_GET['id'], false));
                      if (!$status)
                         $view->serverMessage("Unable to update item.");
                      else
                         $view->serverMessage("Item Successfully updated.");
                 }catch(DataTypeException $e){
                     $view = new DetailsView();
-                    $view->display($this->inventoryModel->GetItem($_GET['id']));
+                    $view->display($this->inventoryModel->GetItemBasic($_GET['id'], false));
                     $view->serverMessage($e->getDetails());
                 }catch(DatabaseException $e){
                    $view = new Index();
@@ -197,21 +229,22 @@ class ApplicationController {
                     $view->serverMessage($e->getDetails());
                 } catch(Exception $e){
                     $view = new DetailsView();
-                    $view->display($this->inventoryModel->GetItem($_GET['id']));
+                    $view->display($this->inventoryModel->GetItemBasic($_GET['id'], false));
                     $view->serverMessage($e->getDetails());
                 }
             }else{
                 $view = new DetailsView();
-                $view->display($this->inventoryModel->GetItem($_GET['id']));
+                $view->display($this->inventoryModel->GetItemBasic($_GET['id'], false));
                 $view->serverMessage("Missing form data.");
             }
         }else{
             $view = new DetailsView();
-            $view->display($this->inventoryModel->GetItem($_GET['id']));
+            $view->display($this->inventoryModel->GetItemBasic($_GET['id'], false));
             $view->serverMessage("Must be an administrator to edit items.");
         }
     }
     
+    //action to logout a user
     public function logout() {  
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -223,6 +256,7 @@ class ApplicationController {
         $this->login();
     }
     
+    //action to verify a user
     public function verifyUser(){
         if(isset($_GET['username']) && !empty($_GET['username']) && isset($_GET['password']) && !empty($_GET['password'])){
              if ($this->userModel->VerifyUser($_GET['username'], $_GET['password']))
@@ -238,20 +272,58 @@ class ApplicationController {
             $view->serverMessage("Missing Form Data.");
         }
     }
+    
+    //action to add a user
+    public function addUser() {
+        if(isset($_GET['regUsername']) && !empty($_GET['regUsername']) && isset($_GET['regPassword']) && !empty($_GET['regPassword']) && isset($_GET['fname']) && !empty($_GET['fname']) && isset($_GET['lname']) && !empty($_GET['lname']) && isset($_GET['phone']) && !empty($_GET['phone'])){
+            try{
+                if (UserModel::GetUserModel()->AddUser($_GET['regUsername'], $_GET['regPassword'], $_GET['fname'], $_GET['lname'], $_GET['phone'], '{"inventory": [{"1": 1}]}')){
+                    $view = new LoginView();
+                    $view->display(null);
+                    $view->serverMessage("Account created.");
+                }else{
+                    $view = new RegisterView();
+                    $view->display(null);
+                    $view->serverMessage("Failed to create account.");
+                }
+            }catch(DataTypeException $e){
+                    $view = new RegisterView();
+                    $view->display();
+                    $view->serverMessage("Invalid Data Type.");
+                }catch(DataLengthException $e){
+                   $view = new RegisterView();
+                    $view->display();
+                    $view->serverMessage("Phone number must be at least 7 numbers.");
+                }catch(DatabaseException $e){
+                   $view = new RegisterView();
+                    $view->display();
+                    $view->serverMessage("Unable to connect to database.");
+                } catch(Exception $e){
+                    $view = new RegisterView();
+                    $view->display();
+                    $view->serverMessage("Error trying to add item.");
+                }
+        }else{
+            $view = new RegisterView();
+            $view->display();
+            $view->serverMessage("Missing Form Data.");
+        }
+    }
 
-    //show details of a book
+    //action to display registration page
     public function registration() {
-        $view = new Register();
+        $view = new RegisterView();
         $view->display();
     }
     
+    //action to display item detail page
     public function details() {  
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         if(isset($_GET["itemId"])) {
             $view = new DetailsView();
-            $view->display($this->inventoryModel->GetItem($_GET['itemId']));
+            $view->display($this->inventoryModel->GetItemBasic($_GET['itemId'], false));
         }else{
             $view = new LoginView();
             $view->display();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2018 at 11:21 PM
+-- Generation Time: Dec 09, 2018 at 01:16 AM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.8
 
@@ -75,15 +75,16 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`id`, `price`, `name`, `description`, `icon_id`) VALUES
-(0, 0, 'Steel Shortsword', 'A sword made from steel.', 0),
-(1, 2, 'Meat', 'Its meat.', 1),
-(2, 1, 'Water', 'It\'s water.', 2),
-(3, 10, 'Iron Ingot', 'An ingot of iron.', 3),
+(0, 250, 'Steel Shortsword', 'A sword made from steel.', 0),
+(1, 15, 'Meat', 'Its meat.', 1),
+(2, 5, 'Water', 'Its water.', 2),
+(3, 35, 'Iron Ingot', 'An ingot of iron.', 3),
 (4, 100, 'Leather Vest', 'Tight worn vest made of leather.', 4),
-(5, 5, 'Boots', 'Enchanted leather boots. Makes you run faster.', 5),
-(6, 12, 'Bow', 'Standard Hunting Bow', 6),
-(7, 204, 'Necromancy: Summon Undead', 'Teaches the player how to cast the spell: Summon Undead', 7),
-(8, 300, 'Huntsman Axe', 'Huntsman axe used for felling trees.', 8);
+(5, 45, 'Boots', 'You can, like, put on some boots, and they, like, make you run faster.', 5),
+(6, 85, 'Bow', 'Standard Hunting Bow', 6),
+(7, 350, 'Necromancy: Summon Undead', 'Teaches the player how to cast the spell: Summon Undead', 7),
+(8, 150, 'Huntsman Axe', 'Huntsman axe used for felling trees.', 8),
+(10, 124, 'OutlookMiner', 'Teaches the player how to cast the spell: Summon Undead', 4);
 
 -- --------------------------------------------------------
 
@@ -108,13 +109,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `firstName`, `lastName`, `phone`, `inventory`, `level`, `coins`) VALUES
-(1, 'awenger', 'password01', 'Alex', 'Wenger', 3308004, '{[{\"1\": \"5\"}, {\"2\": \"6\"}]}', 0, 0),
-(2, 'jchan', '01010101', 'Johnny', 'Chan', 1234567, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}]}', 0, 0),
-(3, 'flexluther', 'isthatbad?', 'Todd', 'Marshal', 1234567, '{[]}', 0, 0),
-(4, 'vendor', '\"\"', 'John', 'Destroyer of Worlds', 6666666, '{\r\n	\"inventory\": [{\r\n		\"0\": 30\r\n	}, {\r\n		\"1\": 30\r\n	}, {\r\n		\"2\": 30\r\n	}, {\r\n		\"3\": 30\r\n	}, {\r\n		\"4\": 30\r\n	}, {\r\n		\"5\": 30\r\n	}, {\r\n		\"6\": 30\r\n	}, {\r\n		\"7\": 30\r\n	}, {\r\n		\"8\": 30\r\n	}]\r\n}', 0, 3979),
-(5, 'admin', '$2y$10$pMWQuLZmdc6vTLXwEcCq5.zC3C5kiaTrItkmu/a7w0OmA3vAni09q', 'Kevin', 'June', 3308004, '{\n	\"inventory\": [{\n		\"0\": 30\n	}, {\n		\"1\": 30\n	}, {\n		\"2\": 30\n	}, {\n		\"3\": 30\n	}, {\n		\"4\": 30\n	}, {\n		\"5\": 30\n	}, {\n		\"6\": 30\n	}, {\n		\"7\": 30\n	}, {\n		\"8\": 30\n	}]\n}', 25, 1378),
-(6, 'wengera', '$2y$10$eZGHG2eWLyxpGnQ3N8llUO3pUIOtLmJiH2OhguMV4bUQPepKnIsim', 'Alex', 'Wenger', 2147483647, '{\"inventory\": [{\"1\": 5}, {\"2\": 6}, {\"0\": 1}, {\"4\": 3}]}', 25, 1378),
-(7, 'vendor', '$2y$10$SuJJ/q/mqH2F2qxmHTw5ZuExhqvQBsW0Pv9r8B6hAk7yeZzo4.gPO', 'John', 'Destroyer of Worlds', 6666666, '{\n	\"inventory\": [{\n		\"0\": 30\n	}, {\n		\"1\": 30\n	}, {\n		\"2\": 30\n	}, {\n		\"3\": 30\n	}, {\n		\"4\": 30\n	}, {\n		\"5\": 30\n	}, {\n		\"6\": 30\n	}, {\n		\"7\": 30\n	}, {\n		\"8\": 30\n	}]\n}', 25, 1378);
+(5, 'admin', '$2y$10$pMWQuLZmdc6vTLXwEcCq5.zC3C5kiaTrItkmu/a7w0OmA3vAni09q', 'Kevin', 'June', 3308004, '{\"inventory\": [{\"0\": 30},{\"1\": 30},{\"2\": 30},{\"3\": 27},{\"4\": 28},{\"5\": 30},{\"6\": 30},{\"7\": 29},{\"8\": 27}]}', 25, 10534),
+(6, 'wengera', '$2y$10$eZGHG2eWLyxpGnQ3N8llUO3pUIOtLmJiH2OhguMV4bUQPepKnIsim', 'Alex', 'Wenger', 2147483647, '{\"inventory\": [{\"0\": 42},{\"1\": 26},{\"3\": 1},{\"4\": 17},{\"5\": 12},{\"6\": 1},{\"7\": 2}]}', 25, 1246),
+(7, 'vendor', '$2y$10$SuJJ/q/mqH2F2qxmHTw5ZuExhqvQBsW0Pv9r8B6hAk7yeZzo4.gPO', 'John', 'Destroyer of Worlds', 6666666, '{\n	\"inventory\": [{\n		\"0\": 30\n	}, {\n		\"1\": 30\n	}, {\n		\"2\": 30\n	}, {\n		\"3\": 30\n	}, {\n		\"4\": 30\n	}, {\n		\"5\": 30\n	}, {\n		\"6\": 30\n	}, {\n		\"7\": 30\n	}, {\n		\"8\": 30\n	}]\n}', 25, 9999);
 
 --
 -- Indexes for dumped tables
@@ -144,20 +141,10 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT for table `item`
 --
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `icon`
---
-ALTER TABLE `icon`
-  ADD CONSTRAINT `icon_ibfk_1` FOREIGN KEY (`id`) REFERENCES `item` (`icon_id`);
+ALTER TABLE `item`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

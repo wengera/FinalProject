@@ -1,7 +1,7 @@
 <?php
 /*
- * Author: Louie Zhu
- * Date: Mar 6, 2016
+ * Author: Alex Wenger, Kevin June
+ * Date: 11/15/2018
  * Name: index_view.class.php
  * Description: the parent class for all view classes. The two functions display page header and footer.
  */
@@ -37,6 +37,9 @@ class IndexView {
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="registration">Register</a>
                 </li>
                 <?php
                     }else{
@@ -186,6 +189,11 @@ class IndexView {
                         border-width: 4px !important;
                     }
                     
+                    .itemSelectedUser{
+                        border-color: #5194ff !important;
+                        border-width: 4px !important;
+                    }
+                    
                     #itemCard:hover { 
                         border-color: #5194ff;
                         -webkit-animation: grow .1s  normal forwards ease-in-out; /* Safari 4.0 - 8.0 */
@@ -312,8 +320,11 @@ class IndexView {
                 }
                 
                 function getItemFloatingDetails(id, user){
-                    console.log("User: " + user);
                     GetItemJson(id, user);
+                }
+                
+                function getItemFloatingDetailsBasic(id){
+                    GetItemJsonBasic(id);
                 }
                 
                 

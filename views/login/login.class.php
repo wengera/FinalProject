@@ -1,9 +1,9 @@
 <?php
 /*
- * Author: Louie Zhu
- * Date: Mar 6, 2016
+ * Author: Alex Wenger, Kevin June
+ * Date: 11/15/2018
  * Name: index.class.php
- * Description: This class defines the method "display" that displays the home page.
+ * Description: The login view for the application
  */
 
 class LoginView extends IndexView {
@@ -32,14 +32,6 @@ class LoginView extends IndexView {
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                               </form>
-                            
-                            <!--
-                            <form method="post" action="index.php?action=login">
-                                <div><input type="text" name="username" style="width: 99%" required="" placeholder="Username"></div>
-                                <div><input type="password" name="password" style="width: 99%" required="" placeholder="Password"></div>
-                                <div><input type="submit" class="button" value="Login"></div>
-                            </form>
-                            -->
                         </div>
                     </div>
                </div>
@@ -48,11 +40,6 @@ class LoginView extends IndexView {
                 </div>
             </div>
         </div>
-        <!--
-            <form action="index.php?action=logout" method="post">
-                <input type="submit" name="logout" value="logout" />
-            </form>
-        -->
 
         <?php
         //display page footer
